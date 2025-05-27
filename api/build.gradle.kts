@@ -17,6 +17,6 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.pf4j)
+    api(libs.pf4j)
     testImplementation(libs.junit)
 }
