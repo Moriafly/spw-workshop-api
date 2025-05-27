@@ -6,7 +6,7 @@ plugins {
     `maven-publish`
 }
 
-group = "io.github.moriafly"
+group = "com.github.Moriafly"
 version = "0.1.0-dev01"
 
 java {
