@@ -19,12 +19,18 @@
 
 package com.xuncorp.spw.workshop.api
 
+import org.pf4j.DefaultPluginFactory
 import org.pf4j.Plugin
+import org.pf4j.PluginWrapper
 
-abstract class WorkshopPlugin : Plugin() {
-    protected lateinit var workshopApi: WorkshopApi
-
-    internal fun setWorkshopApi(workshopApi: WorkshopApi) {
-        this.workshopApi = workshopApi
+class WorkshopPluginFactory(
+    private val workshopApi: WorkshopApi
+) : DefaultPluginFactory() {
+    override fun create(pluginWrapper: PluginWrapper?): Plugin? {
+        val plugin = super.create(pluginWrapper)
+        if (plugin is WorkshopPlugin) {
+            plugin.setWorkshopApi(workshopApi)
+        }
+        return plugin
     }
 }
