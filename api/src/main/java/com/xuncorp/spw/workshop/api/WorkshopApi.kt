@@ -30,4 +30,12 @@ interface WorkshopApi {
          */
         fun changeExclusive(exclusive: Boolean)
     }
+
+    companion object {
+        /**
+         * SPW 程序自行启动注入
+         */
+        lateinit var instance: WorkshopApi
+            internal set
+    }
 }
