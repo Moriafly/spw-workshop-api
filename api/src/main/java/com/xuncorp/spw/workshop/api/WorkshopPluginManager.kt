@@ -19,27 +19,14 @@
 
 package com.xuncorp.spw.workshop.api
 
+import org.pf4j.DefaultPluginManager
+import java.nio.file.Path
+
 /**
- * SPW 创意工坊 API
+ * SPW 创意工坊 Plugin Manager
+ *
+ * @param paths 插件路径 [Path]
  */
-interface WorkshopApi {
-    val playback: Playback
-
-    interface Playback {
-        /**
-         * 更改是否独占音频
-         *
-         * **必须在主线程调用**
-         */
-        fun changeExclusive(exclusive: Boolean)
-    }
-
-    companion object {
-        /**
-         * SPW 程序自行启动注入
-         *
-         * **仅调用，请勿赋值**
-         */
-        lateinit var instance: WorkshopApi
-    }
-}
+open class WorkshopPluginManager(
+    vararg paths: Path
+) : DefaultPluginManager(*paths)
