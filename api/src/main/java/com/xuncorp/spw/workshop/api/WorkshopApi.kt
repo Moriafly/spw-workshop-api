@@ -30,6 +30,8 @@ interface WorkshopApi {
          * 更改是否独占音频
          *
          * **必须在主线程调用**
+         *
+         * **禁止在 [PlaybackExtensionPoint.onIsPlayingChanged] 回调中调用此方法**
          */
         fun changeExclusive(exclusive: Boolean)
     }
