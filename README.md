@@ -27,6 +27,57 @@ spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", v
 
 模块 gradle 类型写法：
 
+对于 Groovy:
+```gradle
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.21'
+    id 'org.jetbrains.kotlin.kapt' version '2.0.21'
+}
+
+dependencies {
+    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib'
+    compileOnly libs.spw.workshop.api
+    kapt libs.spw.workshop.api
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+def pluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
+def pluginId = "workshop-classical"
+def pluginVersion = "0.0.9"
+def pluginProvider = "Xuncorp"
+
+tasks.named("jar") {
+    manifest {
+        attributes["Plugin-Class"] = pluginClass
+        attributes["Plugin-Id"] = pluginId
+        attributes["Plugin-Version"] = pluginVersion
+        attributes["Plugin-Provider"] = pluginProvider
+    }
+}
+
+tasks.register("plugin", Jar) {
+    archiveBaseName.set("plugin-" + pluginId + "-" + pluginVersion)
+
+    into("classes") {
+        with(tasks.named("jar").get())
+    }
+    dependsOn(configurations.runtimeClasspath)
+    into("lib") {
+        from({
+            configurations.runtimeClasspath
+                    .filter { it.name.endsWith("jar") }
+        })
+    }
+    archiveExtension = 'zip'
+}
+```
+
+对于 Kotlin DSL:
 ```kotlin
 plugins {
     id("java-library")
