@@ -45,6 +45,8 @@ interface PlaybackExtensionPoint : ExtensionPoint {
 
     /**
      * 加载歌词（优先）的回调，返回 null 表示加载歌词将使用 SPW 默认逻辑
+     *
+     * **此函数会在 IO 线程上执行**
      */
     @Deprecated(
         "使用 onBeforeLoadLyrics，作用一样",
@@ -55,6 +57,8 @@ interface PlaybackExtensionPoint : ExtensionPoint {
 
     /**
      * 加载歌词（优先）的回调，返回 null 表示加载歌词将使用 SPW 默认逻辑
+     *
+     * **此函数会在 IO 线程上执行**
      */
     @SinceAPI("1.5.20", "0.1.0-dev07")
     fun onBeforeLoadLyrics(mediaItem: MediaItem): String? = null
@@ -63,6 +67,8 @@ interface PlaybackExtensionPoint : ExtensionPoint {
      * 加载歌词（后置）的回调，当 SPW 默认逻辑无法加载歌词时，将调用此回调
      *
      * **更推荐拓展此函数**
+     *
+     * **此函数会在 IO 线程上执行**
      */
     @SinceAPI("1.5.20", "0.1.0-dev07")
     fun onAfterLoadLyrics(mediaItem: MediaItem): String? = null
