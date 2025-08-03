@@ -25,14 +25,23 @@ import org.pf4j.ExtensionPoint
  * 播放拓展点
  */
 interface PlaybackExtensionPoint : ExtensionPoint {
+    /**
+     * 播放器状态改变的回调
+     */
     fun onStateChanged(state: State)
 
+    /**
+     * 正在播放状态改变的回调
+     */
     fun onIsPlayingChanged(isPlaying: Boolean)
 
+    /**
+     * 跳转到 [position] ms 的回调
+     */
     fun onSeekTo(position: Long)
 
     /**
-     * 加载歌词（优先），返回 null 表示加载歌词，将加入 SPW 默认逻辑
+     * 加载歌词（优先）的回调，返回 null 表示加载歌词将使用 SPW 默认逻辑
      */
     fun updateLyrics(mediaItem: MediaItem): String?
 
@@ -50,8 +59,7 @@ interface PlaybackExtensionPoint : ExtensionPoint {
      * @property artist 艺术家，多艺术家以“/”分割（含特殊情况）
      * @property album 专辑，多专辑以“/”分割（含特殊情况）
      * @property albumArtist 专辑艺术家，多专辑艺术家以“/”分割（含特殊情况）
-     * @property path 文件路径，平台风格，如：
-     * C:\Music\Song.mp3
+     * @property path 文件路径，平台风格，如：C:\Music\Song.mp3
      */
     data class MediaItem(
         val title: String,
