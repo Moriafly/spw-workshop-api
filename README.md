@@ -4,13 +4,11 @@
 
 ## 介绍
 
-SPW 创意工坊（Mod）API 是用于实现 SPW 插件/模块的库。基于 PF4J 实现，目前还在试验阶段。
+SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库，目前尚处于试验阶段。它基于 PF4J (Plugin Framework for Java) 构建，旨在简化 SPW 在 JVM 平台上的插件化开发。
 
-SPW 基于 JVM 平台，插件化比较简单，本库配合反射等操作可以对 SPW 进行更高级的操作控制。
+通过结合本库与 Java 反射等高级特性，开发者可以对 SPW 实现更深层次的操作与控制。
 
-本库的 api 文件夹下是主要逻辑支持代码，在包 com.xuncorp.spw.workshop.api 下。
-
-其中类名称后边为 ExtensionPoint 的类表示插件拓展点，WorkshopApi 是供插件访问 SPW 公开的方法。
+该库的核心逻辑代码位于 api 文件夹下的 com.xuncorp.spw.workshop.api 包中。其中，以 ExtensionPoint 结尾的类是插件的拓展点接口，而 WorkshopApi 类则提供了供插件访问的 SPW 公开方法。
 
 ## 使用方法
 
@@ -18,8 +16,8 @@ SPW 基于 JVM 平台，插件化比较简单，本库配合反射等操作可�
 
 ```toml
 [versions]
-# 0.1.0-dev05 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev05"
+# 0.1.0-dev06 替换为最新的（或需要的）版本
+spw-workshop-api = "0.1.0-dev06"
 
 [libraries]
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
@@ -140,6 +138,4 @@ class ClassicalPlugin : Plugin() {
 
 ## 混淆配置
 
-```
--keep class com.xuncorp.spw.workshop.api.** { *; }
-```
+SPW 希望 Mod 开源并建议不要混淆其代码。

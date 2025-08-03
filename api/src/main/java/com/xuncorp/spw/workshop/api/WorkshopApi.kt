@@ -25,6 +25,9 @@ package com.xuncorp.spw.workshop.api
 interface WorkshopApi {
     val playback: Playback
 
+    /**
+     * 播放相关
+     */
     interface Playback {
         /**
          * 更改是否独占音频
@@ -33,6 +36,7 @@ interface WorkshopApi {
          *
          * **禁止在 [PlaybackExtensionPoint.onIsPlayingChanged] 回调中调用此方法**
          */
+        @SinceAPI("1.3.16", "0.1.0-dev06")
         fun changeExclusive(exclusive: Boolean)
     }
 
@@ -40,7 +44,7 @@ interface WorkshopApi {
         /**
          * SPW 程序自行启动注入
          *
-         * **仅调用，请勿赋值**
+         * **Mod 制作方仅调用（get），请勿赋值（set）**
          */
         lateinit var instance: WorkshopApi
     }
