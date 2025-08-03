@@ -29,25 +29,49 @@ interface PlaybackExtensionPoint : ExtensionPoint {
      * 播放器状态改变的回调
      */
     @SinceAPI("1.3.16", "0.1.0-dev06")
-    fun onStateChanged(state: State)
+    fun onStateChanged(state: State) {}
 
     /**
      * 正在播放状态改变的回调
      */
     @SinceAPI("1.3.16", "0.1.0-dev06")
-    fun onIsPlayingChanged(isPlaying: Boolean)
+    fun onIsPlayingChanged(isPlaying: Boolean) {}
 
     /**
      * 跳转到 [position] ms 的回调
      */
     @SinceAPI("1.3.16", "0.1.0-dev06")
-    fun onSeekTo(position: Long)
+    fun onSeekTo(position: Long) {}
 
     /**
      * 加载歌词（优先）的回调，返回 null 表示加载歌词将使用 SPW 默认逻辑
      */
+    @Deprecated(
+        "使用 onBeforeLoadLyrics，作用一样",
+        ReplaceWith("onBeforeLoadLyrics")
+    )
     @SinceAPI("1.3.16", "0.1.0-dev06")
-    fun updateLyrics(mediaItem: MediaItem): String?
+    fun updateLyrics(mediaItem: MediaItem): String? = null
+
+    /**
+     * 加载歌词（优先）的回调，返回 null 表示加载歌词将使用 SPW 默认逻辑
+     */
+    @SinceAPI("1.5.20", "0.1.0-dev07")
+    fun onBeforeLoadLyrics(mediaItem: MediaItem): String? = null
+
+    /**
+     * 加载歌词（后置）的回调，当 SPW 默认逻辑无法加载歌词时，将调用此回调
+     *
+     * **更推荐拓展此函数**
+     */
+    @SinceAPI("1.5.20", "0.1.0-dev07")
+    fun onAfterLoadLyrics(mediaItem: MediaItem): String? = null
+
+    /**
+     * 当前播放的歌词行更新
+     */
+    @SinceAPI("1.5.20", "0.1.0-dev07")
+    fun onLyricsLineUpdated(lyricsLine: LyricsLine?) {}
 
     enum class State {
         Idle,
@@ -72,4 +96,34 @@ interface PlaybackExtensionPoint : ExtensionPoint {
         val albumArtist: String,
         val path: String
     )
+
+    /**
+     * 歌词行
+     *
+     * @property startTime 开始时间
+     * @property endTime 结束时间
+     * @property lyricsCells 歌词单元
+     * @property pureMainText 纯文本（主要歌词文本）
+     * @property pureSubText 纯翻译文本
+     */
+    data class LyricsLine(
+        val startTime: Long,
+        val endTime: Long,
+        val lyricsCells: List<Cell>,
+        val pureMainText: String,
+        val pureSubText: String?
+    ) {
+        /**
+         * 卡拉 OK 歌词中最小的可滚动单元
+         *
+         * @property startTime 开始时间戳
+         * @property endTime 结束时间戳
+         * @property text 文本
+         */
+        data class Cell(
+            val startTime: Long,
+            val endTime: Long,
+            val text: String
+        )
+    }
 }

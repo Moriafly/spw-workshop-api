@@ -25,6 +25,8 @@ package com.xuncorp.spw.workshop.api
 interface WorkshopApi {
     val playback: Playback
 
+    val ui: Ui
+
     /**
      * 播放相关
      */
@@ -38,6 +40,23 @@ interface WorkshopApi {
          */
         @SinceAPI("1.3.16", "0.1.0-dev06")
         fun changeExclusive(exclusive: Boolean)
+    }
+
+    /**
+     * 界面相关
+     */
+    interface Ui {
+        /**
+         * 发送一个 [type] 类型文本吐司
+         */
+        @SinceAPI("1.5.20", "0.1.0-dev07")
+        fun toast(text: String, type: ToastType)
+
+        enum class ToastType {
+            Success,
+            Warning,
+            Error
+        }
     }
 
     companion object {
