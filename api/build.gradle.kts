@@ -25,10 +25,17 @@ dependencies {
     testImplementation(libs.junit)
 }
 
+tasks.register<Jar>("sourcesJar") {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
             from(components["java"])
+
+            artifact(tasks["sourcesJar"])
         }
     }
 }
