@@ -91,9 +91,9 @@ interface PlaybackExtensionPoint : ExtensionPoint {
      *
      * @property title 标题
      * @property artist 艺术家，多艺术家以“/”分割（含特殊情况）
-     * @property album 专辑，多专辑以“/”分割（含特殊情况）
+     * @property album 专辑
      * @property albumArtist 专辑艺术家，多专辑艺术家以“/”分割（含特殊情况）
-     * @property path 文件路径，平台风格，如：C:\Music\Song.mp3
+     * @property path 文件路径，平台风格，如：`C:\Music\Song.mp3`
      */
     data class MediaItem(
         val title: String,
