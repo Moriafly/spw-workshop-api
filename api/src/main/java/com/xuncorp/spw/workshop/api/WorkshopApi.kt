@@ -38,7 +38,7 @@ interface WorkshopApi {
          *
          * **禁止在 [PlaybackExtensionPoint.onIsPlayingChanged] 回调中调用此方法**
          */
-        @SinceAPI("1.3.16", "0.1.0-dev06")
+        @SinceApi("1.3.16", "0.1.0-dev06")
         fun changeExclusive(exclusive: Boolean)
     }
 
@@ -49,7 +49,7 @@ interface WorkshopApi {
         /**
          * 发送一个 [type] 类型文本吐司
          */
-        @SinceAPI("1.5.20", "0.1.0-dev07")
+        @SinceApi("1.5.20", "0.1.0-dev07")
         fun toast(text: String, type: ToastType)
 
         enum class ToastType {
