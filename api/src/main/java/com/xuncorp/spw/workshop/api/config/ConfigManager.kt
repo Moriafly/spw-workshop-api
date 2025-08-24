@@ -20,7 +20,6 @@
 package com.xuncorp.spw.workshop.api.config
 
 import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
-
 import java.util.function.Consumer
 
 /**
@@ -32,7 +31,7 @@ import java.util.function.Consumer
 @UnstableSpwWorkshopApi
 interface ConfigManager {
     /**
-     * 获取默认的配置文件帮助程序 (通常对应 config.json)
+     * 获取默认的配置文件帮助程序 (通常对应 `config.json`)
      *
      * @return 默认的 ConfigHelper 实例
      */
@@ -44,13 +43,13 @@ interface ConfigManager {
      * 如果首次请求该文件，管理器会创建一个新的帮助程序实例
      * 后续对同一文件名的请求将返回缓存的同一实例
      *
-     * @param fileName 配置文件的名称, 例如 "database.json"
+     * @param fileName 配置文件的名称, 例如 `database.json`
      * @return 对应文件的 ConfigHelper 实例
      */
     fun getConfig(fileName: String): ConfigHelper
 
     /**
-     * 添加一个监听器，当默认配置文件 (config.json) 发生更改时调用
+     * 添加一个监听器，当默认配置文件 `config.json` 发生更改时调用
      *
      * 监听器会在配置文件被保存后触发，传递被修改的文件名作为参数。
      * 这允许插件对配置更改做出响应，例如重新加载设置或更新状态。
@@ -62,10 +61,10 @@ interface ConfigManager {
     /**
      * 添加一个监听器，当指定配置文件发生更改时调用
      *
-     * 监听器会在配置文件被保存后触发，传递被修改的文件名作为参数。
-     * 这允许插件对配置更改做出响应，例如重新加载设置或更新状态。
+     * 监听器会在配置文件被保存后触发，传递被修改的文件名作为参数
+     * 这允许插件对配置更改做出响应，例如重新加载设置或更新状态
      *
-     * @param fileName 要监听的配置文件名 默认值为 "config.json"
+     * @param fileName 要监听的配置文件名 默认值为 `config.json`
      * @param listener 当指定文件更改时调用，参数为被修改的配置路径和对应的 ConfigHelper 实例
      */
     fun addConfigChangeListener(fileName: String, listener: Consumer<ConfigHelper>)
