@@ -41,6 +41,7 @@ interface WorkshopApi {
          * @param pluginId 插件 ID
          */
         @SinceApi("1.6.20", "0.1.0-dev09")
+        @UnstableSpwWorkshopApi
         fun createConfigManager(pluginId: String): ConfigManager
     }
 
