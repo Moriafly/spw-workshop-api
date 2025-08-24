@@ -19,6 +19,8 @@
 
 package com.xuncorp.spw.workshop.api
 
+import com.xuncorp.spw.workshop.api.config.ConfigManager
+
 /**
  * SPW 创意工坊 API
  */
@@ -26,6 +28,21 @@ interface WorkshopApi {
     val playback: Playback
 
     val ui: Ui
+
+    val manager: Manager
+
+
+    /**
+     * 实用工具相关
+     */
+    interface Manager {
+        /**
+         * 创建一个配置管理器
+         *
+         * @param pluginId 插件 ID
+         */
+        fun createConfigManager(pluginId: String): ConfigManager
+    }
 
     /**
      * 播放相关
@@ -76,5 +93,10 @@ interface WorkshopApi {
             @JvmStatic
             @JvmName("playback")
             get() = instance.playback
+
+        val manager: Manager
+            @JvmStatic
+            @JvmName("manager")
+            get() = instance.manager
     }
 }
