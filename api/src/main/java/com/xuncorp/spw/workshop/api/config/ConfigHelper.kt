@@ -21,6 +21,8 @@ package com.xuncorp.spw.workshop.api.config
 
 import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
+import java.nio.file.Path
+
 @UnstableSpwWorkshopApi
 interface ConfigHelper {
     /**
@@ -37,6 +39,10 @@ interface ConfigHelper {
      * 设置一个配置项 [key] 的值 [value]
      *
      * 注意：这个方法仅在内存中更新配置，你需要调用 [save] 方法来将其持久化到磁盘
+     *
+     * @param key 配置项的键 支持使用点号 (.) 来表示嵌套的 JSON 结构, 例如 "database.host"
+     * @param value 要设置的值 (支持 String, Number, Boolean 类型)
+     * @throws IllegalArgumentException 如果值的类型不受支持
      */
     fun set(
         key: String,
@@ -58,4 +64,11 @@ interface ConfigHelper {
      * @return true 如果加载成功, 否则 false
      */
     fun reload(): Boolean
+
+    /**
+     * 获取当前配置文件的完整路径
+     *
+     * @return 配置文件的路径
+     */
+    fun getConfigPath(): Path
 }
