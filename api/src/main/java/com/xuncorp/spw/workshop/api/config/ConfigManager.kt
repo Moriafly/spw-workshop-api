@@ -19,12 +19,15 @@
 
 package com.xuncorp.spw.workshop.api.config
 
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
+
 /**
  * 插件配置管理器接口
  *
  * 允许插件获取和管理多个配置文件
  * 每个配置文件都由一个专属的 ConfigHelper 实例来表示
  */
+@UnstableSpwWorkshopApi
 interface ConfigManager {
     /**
      * 获取默认的配置文件帮助程序 (通常对应 config.json)

@@ -19,6 +19,9 @@
 
 package com.xuncorp.spw.workshop.api.config
 
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
+
+@UnstableSpwWorkshopApi
 interface ConfigHelper {
     /**
      * 获取一个指定类型的配置项 [key] 的值
