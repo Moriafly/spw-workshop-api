@@ -31,7 +31,6 @@ interface WorkshopApi {
 
     val manager: Manager
 
-
     /**
      * 实用工具相关
      */
@@ -41,6 +40,7 @@ interface WorkshopApi {
          *
          * @param pluginId 插件 ID
          */
+        @SinceApi("1.6.20", "0.1.0-dev09")
         fun createConfigManager(pluginId: String): ConfigManager
     }
 

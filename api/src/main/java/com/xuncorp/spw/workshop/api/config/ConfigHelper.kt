@@ -1,14 +1,29 @@
+/*
+ * SPW Workshop API
+ * Copyright (C) 2025 Moriafly
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+@file:Suppress("unused")
+
 package com.xuncorp.spw.workshop.api.config
 
 interface ConfigHelper {
     /**
-     * 获取一个指定类型的配置项
+     * 获取一个指定类型的配置项 [key] 的值
      *
-     * 如果配置文件中不存在该键，或值的类型不匹配，将返回指定的 [defaultValue].
-     *
-     * @param key 配置项的键
-     * @param defaultValue 默认值
-     * @return 配置值或默认值
+     * 如果配置文件中不存在该键，或值的类型不匹配，将返回指定的 [defaultValue]
      */
     fun <T> get(
         key: String,
@@ -16,12 +31,9 @@ interface ConfigHelper {
     ): T
 
     /**
-     * 设置一个配置项的值
+     * 设置一个配置项 [key] 的值 [value]
      *
-     * 注意：这个方法仅在内存中更新配置，你需要调用 [save] 方法来将其持久化到磁盘。
-     *
-     * @param key 配置项的键
-     * @param value 要设置的值
+     * 注意：这个方法仅在内存中更新配置，你需要调用 [save] 方法来将其持久化到磁盘
      */
     fun set(
         key: String,
@@ -38,7 +50,7 @@ interface ConfigHelper {
     /**
      * 从磁盘重新加载配置
      *
-     * 这会覆盖所有在内存中尚未保存的修改。
+     * 这会覆盖所有在内存中尚未保存的修改
      *
      * @return true 如果加载成功, 否则 false
      */
