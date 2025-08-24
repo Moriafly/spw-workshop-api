@@ -66,5 +66,13 @@ interface WorkshopApi {
          * **Mod 制作方仅调用（get），请勿赋值（set）**
          */
         lateinit var instance: WorkshopApi
+
+        @JvmStatic
+        @get:JvmName("ui")
+        val ui get() = instance.ui
+
+        @JvmStatic
+        @get:JvmName("playback")
+        val playback get() = instance.playback
     }
 }
