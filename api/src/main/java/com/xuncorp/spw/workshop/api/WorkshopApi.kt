@@ -67,12 +67,14 @@ interface WorkshopApi {
          */
         lateinit var instance: WorkshopApi
 
-        @JvmStatic
-        @get:JvmName("ui")
-        val ui get() = instance.ui
+        val ui: Ui
+            @JvmStatic
+            @JvmName("ui")
+            get() = instance.ui
 
-        @JvmStatic
-        @get:JvmName("playback")
-        val playback get() = instance.playback
+        val playback: Playback
+            @JvmStatic
+            @JvmName("playback")
+            get() = instance.playback
     }
 }
