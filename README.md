@@ -136,6 +136,14 @@ class ClassicalPlugin : Plugin() {
 }
 ```
 
+## 可用元数据
+插件的可用元数据如下：
+- Plugin-Class: 插件主类，必须继承自 org.pf4j.Plugin
+- Plugin-Id: 插件 ID，必须唯一
+- Plugin-Version: 插件版本，建议遵循语义化版本规范
+- Plugin-Provider: 插件作者
+- Plugin-Open-Source-Url: 插件开源地址（可选）
+
 ## 混淆配置
 
 SPW 希望 Mod 开源并建议不要混淆其代码。

@@ -79,6 +79,12 @@ interface PlaybackExtensionPoint : ExtensionPoint {
     @SinceApi("1.5.20", "0.1.0-dev07")
     fun onLyricsLineUpdated(lyricsLine: LyricsLine?) {}
 
+    /**
+     * 每秒钟调用一次，当前播放时间更新
+     */
+    @SinceApi("1.6.20", "0.1.0-dev10")
+    fun onPositionUpdated(position: Long) {}
+
     enum class State {
         Idle,
         Buffering,
