@@ -16,8 +16,8 @@ SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库�
 
 ```toml
 [versions]
-# 0.1.0-dev06 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev06"
+# 0.1.0-dev10 替换为最新的（或需要的）版本
+spw-workshop-api = "0.1.0-dev10"
 
 [libraries]
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
