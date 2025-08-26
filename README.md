@@ -143,6 +143,7 @@ class ClassicalPlugin : Plugin() {
 - Plugin-Version: 插件版本，建议遵循语义化版本规范
 - Plugin-Provider: 插件作者
 - Plugin-Open-Source-Url: 插件开源地址（可选）
+- Plugin-Has-Config: 插件是否有配置文件（可选），值为 "true" 或 "false" 详细见 [配置文件](docs/configs.md)
 
 ## 混淆配置
 
