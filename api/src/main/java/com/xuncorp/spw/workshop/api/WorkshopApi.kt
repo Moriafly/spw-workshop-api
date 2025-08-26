@@ -58,6 +58,30 @@ interface WorkshopApi {
          */
         @SinceApi("1.3.16", "0.1.0-dev06")
         fun changeExclusive(exclusive: Boolean)
+
+        /**
+         * 暂停播放
+         */
+        @SinceApi("1.6.20", "0.1.0-dev10")
+        fun pause()
+
+        /**
+         * 继续播放
+         */
+        @SinceApi("1.6.20", "0.1.0-dev10")
+        fun play()
+
+        /**
+         * 上一首
+         */
+        @SinceApi("1.6.20", "0.1.0-dev10")
+        fun previous()
+
+        /**
+         * 下一首
+         */
+        @SinceApi("1.6.20", "0.1.0-dev10")
+        fun next()
     }
 
     /**
