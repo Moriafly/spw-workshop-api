@@ -46,6 +46,7 @@
 
 - `type` (必需): 配置项类型（"switch", "list", "button", "seekbar", "edittext"）
 - `title` (必需): 配置项的显示标题
+- `summary` (可选): 配置项的摘要描述 (seekbar 类型目前不支持)
 - `key` (必须): 配置项在配置文件中的键名（button 类型不需要）
 - `default_value` (必须): 配置项的默认值 (button 类型不需要)
 
@@ -58,6 +59,7 @@
   "key": "key_name",
   "type": "switch",
   "title": "Switch Title",
+  "summary": "This is a summary",
   "default_value": false
 }
 ```
@@ -87,6 +89,7 @@
 {
   "type": "button",
   "title": "Button Title",
+  "summary": "This is a summary",
   "arrow_type": "none",
   "on_click": "class.method"
 }
@@ -120,6 +123,7 @@
   "key": "key_name",
   "type": "edittext",
   "title": "Edittext Title",
+  "summary": "This is a summary",
   "default_value": "Hello World"
 }
 ```
@@ -136,6 +140,7 @@
                     "key": "key_name",
                     "type": "switch",
                     "title": "开关标题",
+                    "summary": "开关摘要",
                     "default_value": false
                 },
                 {
@@ -156,6 +161,7 @@
                 {
                     "type": "button",
                     "title": "按钮标题",
+                    "summary": "按钮摘要",
                     "arrow_type": "none",
                     "on_click": "com.example.Plugin.onClick"
                 },
@@ -171,6 +177,7 @@
                     "key": "key_name",
                     "type": "edittext",
                     "title": "文本输入标题",
+                    "summary": "文本输入摘要",
                     "default_value": "Hello World"
                 }
             ]
