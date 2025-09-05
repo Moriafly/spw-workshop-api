@@ -4,14 +4,17 @@ junit = "4.13.2"
 pf4j = "3.12.0"
 jetbrains-compose-multiplatform = "1.9.0-rc01"
 salt-ui = "2.6.0-beta03"
+spw-workshop-api = "0.1.0-dev10"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 pf4j = { group = "org.pf4j", name = "pf4j", version.ref = "pf4j" }
 salt-ui = { group = "io.github.moriafly", name = "salt-ui", version.ref = "salt-ui" }
+spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
 
 [plugins]
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose-multiplatform" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

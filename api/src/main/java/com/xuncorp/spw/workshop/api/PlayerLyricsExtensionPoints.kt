@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import org.pf4j.ExtensionPoint
 
 interface PlayerLyricsExtensionPoints : ExtensionPoint {
-    @SinceApi("1.6.20", "0.1.0-dev11")
+    @SinceApi("1.7", "0.1.0-dev11")
     @Composable
     fun buildUi(modifier: Modifier)
 }

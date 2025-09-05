@@ -1,0 +1,13 @@
+[versions]
+kotlin = "2.2.0"
+spw-workshop-api = "0.1.0-dev10"
+jetbrains-compose-multiplatform = "1.9.0-rc01"
+
+[libraries]
+spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
+
+[plugins]
+jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "jetbrains-compose-multiplatform" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
