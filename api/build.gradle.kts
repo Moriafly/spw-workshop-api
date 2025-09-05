@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.jetbrainsCompose)
+    alias(libs.plugins.compose.compiler)
     `maven-publish`
 }
 
@@ -24,6 +26,10 @@ kotlin {
 
 dependencies {
     api(libs.pf4j)
+    api(compose.runtime)
+    api(compose.ui)
+    api(compose.material)
+    api(libs.salt.ui)
     testImplementation(libs.junit)
 }
 

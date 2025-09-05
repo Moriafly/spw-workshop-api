@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="com.nbadal.ktlint.KtlintProjectSettings">
+    <ktlintMode>DISTRACT_FREE</ktlintMode>
+    <ktlintRulesetVersion>DEFAULT</ktlintRulesetVersion>
+    <externalJarPaths>
+      <list>
+        <option value="$PROJECT_DIR$/../../ktlint-compose-0.4.22-all.jar" />
+      </list>
+    </externalJarPaths>
+  </component>
+</project>
