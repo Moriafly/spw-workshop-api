@@ -10,6 +10,10 @@ SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库�
 
 该库的核心逻辑代码位于 api 文件夹下的 com.xuncorp.spw.workshop.api 包中。其中，以 ExtensionPoint 结尾的类是插件的拓展点接口，而 WorkshopApi 类则提供了供插件访问的 SPW 公开方法。
 
+## 示例插件
+
+示例插件项目位于 [example](example) 目录下。建议参考该项目以快速上手。
+
 ## 使用方法
 
 新建 Kotlin/Java 库项目，添加依赖（libs.version.toml）：
