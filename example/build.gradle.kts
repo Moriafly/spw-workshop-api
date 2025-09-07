@@ -5,8 +5,6 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.jetbrains.kotlin.plugin.serialization)
-    alias(libs.plugins.jetbrainsCompose)
-    alias(libs.plugins.compose.compiler)
 }
 
 group = "com.gg.example"
