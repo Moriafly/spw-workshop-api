@@ -1,0 +1,70 @@
+{
+  "configs": [
+    {
+      "title": "配置组标题",
+      "config": "config.json",
+      "preferences": [
+        {
+          "key": "switch_key",
+          "type": "switch",
+          "title": "开关标题",
+          "summary": "开关摘要",
+          "default_value": false
+        },
+        {
+          "key": "list_key",
+          "type": "list",
+          "title": "列表标题",
+          "summary": "列表摘要",
+          "entries": ["选项A", "选项B", "选项C"],
+          "entry_values": ["A", "B", "C"],
+          "default_value": "A"
+        }
+      ]
+    },
+    {
+      "title": "使用示例",
+      "config": "folder/config.json",
+      "preferences": [
+        {
+          "key": "example.switch",
+          "type": "switch",
+          "title": "示例开关",
+          "summary": "这是一个示例开关，默认关闭",
+          "default_value": false
+        },
+        {
+          "key": "example.list",
+          "type": "list",
+          "title": "示例列表",
+          "summary": "请选择一个选项",
+          "entries": ["选项1", "选项2", "选项3"],
+          "entry_values": ["1", "2", "3"],
+          "default_value": "1"
+        },
+        {
+          "key": "example.seekbar",
+          "type": "seekbar",
+          "title": "示例滑动条",
+          "default_value": 50.0,
+          "min": 0.0,
+          "max": 100.0
+        },
+        {
+          "key": "example.edittext",
+          "type": "edittext",
+          "title": "示例文本输入",
+          "summary": "请输入一些文本",
+          "default_value": ""
+        },
+        {
+          "type": "button",
+          "title": "示例按钮",
+          "summary": "点击此按钮执行操作",
+          "arrow_type": "none",
+          "on_click": "com.gg.example.MainPlugin.onExampleButtonClick"
+        }
+      ]
+    }
+  ]
+}
