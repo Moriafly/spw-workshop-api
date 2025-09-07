@@ -143,9 +143,11 @@ class ClassicalPlugin : Plugin() {
 ## 可用元数据
 插件的可用元数据如下：
 - Plugin-Class: 插件主类，必须继承自 org.pf4j.Plugin
-- Plugin-Id: 插件 ID，必须唯一
+- Plugin-Id: 插件 ID，必须唯一 推荐使用 软件包名 如 com.xxx.xxx 类似的名称
+- Plugin-Name: 插件名称
 - Plugin-Version: 插件版本，建议遵循语义化版本规范
 - Plugin-Provider: 插件作者
+- Plugin-Description: 插件描述 （可选）
 - Plugin-Open-Source-Url: 插件开源地址（可选）
 - Plugin-Has-Config: 插件是否有配置文件（可选），值为 "true" 或 "false" 详细见 [配置文件](docs/configs.md)
 

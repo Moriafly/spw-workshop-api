@@ -1,4 +1,5 @@
 @file:OptIn(UnstableSpwWorkshopApi::class)
+@file:Suppress("unused")
 
 package com.gg.example
 
@@ -33,7 +34,10 @@ class MainPlugin : Plugin() {
 
             configHelper.reload()
             configHelper.get("example.edittext", "试试在上方的输入框输入点什么？").let {
-                WorkshopApi.ui.toast("配置项 example.edittext 的值是: $it", WorkshopApi.Ui.ToastType.Success)
+                WorkshopApi.ui.toast(
+                    "配置项 example.edittext 的值是: $it",
+                    WorkshopApi.Ui.ToastType.Success
+                )
             }
         }
     }
