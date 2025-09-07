@@ -38,7 +38,7 @@ val pluginName = "ExamplePlugin"
 val pluginDescription = "An example plugin for Salt Player for Windows"
 val pluginVersion = "1.0.0"
 val pluginProvider = "Zeshi Palace"
-val pluginRepository = "https://github.com/Moriafly/spw-workshop-api/tree/main/example-plugin"
+val pluginRepository = "https://github.com/Moriafly/spw-workshop-api/tree/main/example"
 
 // 配置主 JAR 任务
 tasks.named<Jar>("jar") {

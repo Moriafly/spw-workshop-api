@@ -29,7 +29,7 @@ class MainPlugin : Plugin() {
         fun onExampleButtonClick() {
             val configHelper: ConfigHelper =
                 WorkshopApi.manager
-                    .createConfigManager("ExamplePlugin")
+                    .createConfigManager("com.gg.example")
                     .getConfig("folder/config.json")
 
             configHelper.reload()
