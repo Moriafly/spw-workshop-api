@@ -27,12 +27,15 @@ class PlaybackExtensionExample : PlaybackExtensionPoint {
             PlaybackExtensionPoint.State.Idle -> {
                 WorkshopApi.ui.toast("播放器空闲", WorkshopApi.Ui.ToastType.Warning)
             }
+
             PlaybackExtensionPoint.State.Buffering -> {
                 WorkshopApi.ui.toast("正在缓冲音频", WorkshopApi.Ui.ToastType.Warning)
             }
+
             PlaybackExtensionPoint.State.Ready -> {
                 WorkshopApi.ui.toast("播放器就绪", WorkshopApi.Ui.ToastType.Success)
             }
+
             PlaybackExtensionPoint.State.Ended -> {
                 WorkshopApi.ui.toast("播放结束", WorkshopApi.Ui.ToastType.Success)
             }
@@ -43,14 +46,20 @@ class PlaybackExtensionExample : PlaybackExtensionPoint {
      * 播放/暂停状态变化回调
      */
     override fun onIsPlayingChanged(isPlaying: Boolean) {
-        WorkshopApi.ui.toast("▶️ 播放状态: ${if (isPlaying) "播放中" else "已暂停"}", WorkshopApi.Ui.ToastType.Success)
+        WorkshopApi.ui.toast(
+            "▶️ 播放状态: ${if (isPlaying) "播放中" else "已暂停"}",
+            WorkshopApi.Ui.ToastType.Success
+        )
     }
 
     /**
      * 进度跳转回调
      */
     override fun onSeekTo(position: Long) {
-        WorkshopApi.ui.toast("⏭️ 跳转到位置: ${formatTime(position)}", WorkshopApi.Ui.ToastType.Success)
+        WorkshopApi.ui.toast(
+            "⏭️ 跳转到位置: ${formatTime(position)}",
+            WorkshopApi.Ui.ToastType.Success
+        )
     }
 
     /**
@@ -90,7 +99,10 @@ class PlaybackExtensionExample : PlaybackExtensionPoint {
      */
     override fun onLyricsLineUpdated(lyricsLine: PlaybackExtensionPoint.LyricsLine?) {
         if (lyricsLine != null) {
-            WorkshopApi.ui.toast("🎤 当前歌词: ${lyricsLine.pureMainText}", WorkshopApi.Ui.ToastType.Success)
+            WorkshopApi.ui.toast(
+                "🎤 当前歌词: ${lyricsLine.pureMainText}",
+                WorkshopApi.Ui.ToastType.Success
+            )
         } else {
             WorkshopApi.ui.toast("🎤 当前无歌词", WorkshopApi.Ui.ToastType.Warning)
         }
