@@ -40,9 +40,17 @@ interface WorkshopApi {
          *
          * @param pluginId 插件 ID
          */
+        @Deprecated(
+            "使用 createConfigManager，作用一样",
+            ReplaceWith("createConfigManager")
+        )
         @UnstableSpwWorkshopApi
         @SinceApi("1.6.20", "0.1.0-dev09")
         fun createConfigManager(pluginId: String): ConfigManager
+
+        @UnstableSpwWorkshopApi
+        @SinceApi("1.7.0", "0.1.0-dev11")
+        fun createConfigManager(): ConfigManager
     }
 
     /**
@@ -82,6 +90,14 @@ interface WorkshopApi {
          */
         @SinceApi("1.6.20", "0.1.0-dev10")
         fun next()
+
+        /**
+         * 跳转到指定位置
+         *
+         * @param position 位置，单位毫秒
+         */
+        @SinceApi("1.7.0", "0.1.0-dev11")
+        fun seekTo(position: Long)
     }
 
     /**

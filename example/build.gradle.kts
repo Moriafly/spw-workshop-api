@@ -33,10 +33,12 @@ dependencies {
 
 // 插件元数据配置
 val pluginClass = "com.gg.example.MainPlugin"
-val pluginId = "ExamplePlugin"
+val pluginId = "com.gg.example"
+val pluginName = "ExamplePlugin"
+val pluginDescription = "An example plugin for Salt Player for Windows"
 val pluginVersion = "1.0.0"
 val pluginProvider = "Zeshi Palace"
-val pluginRepository = "https://github.com/Moriafly/spw-workshop-api/tree/main/example-plugin"
+val pluginRepository = "https://github.com/Moriafly/spw-workshop-api/tree/main/example"
 
 // 配置主 JAR 任务
 tasks.named<Jar>("jar") {
@@ -44,6 +46,8 @@ tasks.named<Jar>("jar") {
         attributes(
             "Plugin-Class" to pluginClass,
             "Plugin-Id" to pluginId,
+            "Plugin-Name" to pluginName,
+            "Plugin-Description" to pluginDescription,
             "Plugin-Version" to pluginVersion,
             "Plugin-Provider" to pluginProvider,
             "Plugin-Has-Config" to "true",
@@ -57,7 +61,7 @@ tasks.register<Jar>("plugin") {
     destinationDirectory.set(
         file(System.getenv("APPDATA") + "/Salt Player for Windows/workshop/plugins/")
     )
-    archiveFileName.set("plugin-$pluginId-$pluginVersion.zip")
+    archiveFileName.set("$pluginName-$pluginVersion.zip")
 
     into("classes") {
         with(tasks.named<Jar>("jar").get())

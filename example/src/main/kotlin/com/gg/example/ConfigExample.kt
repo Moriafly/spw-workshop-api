@@ -8,9 +8,11 @@ import com.xuncorp.spw.workshop.api.config.ConfigHelper
 import com.xuncorp.spw.workshop.api.config.ConfigManager
 
 class ConfigExample {
-    // 创建配置管理器实例，参数为插件的唯一标识符 必须与插件描述文件中的 ID 一致
-    val configManager: ConfigManager = WorkshopApi.manager.createConfigManager("ExamplePlugin")
-    val configHelper: ConfigHelper = configManager.getConfig() // 获取默认的配置文件帮助程序 (preference_config.json)
+    // 创建配置管理器实例
+    val configManager: ConfigManager = WorkshopApi.manager.createConfigManager()
+
+    // 获取默认的配置文件帮助程序 (config.json)
+    val configHelper: ConfigHelper = configManager.getConfig()
 
     /**
      * 演示如何使用配置管理器和配置帮助程序
@@ -39,7 +41,10 @@ class ConfigExample {
             configHelper.reload() // 重新加载配置以获取最新值
 
             val updatedValue = configHelper.get("list_key", "defaultValue")
-            WorkshopApi.ui.toast("配置项 exampleKey 已更新为: $updatedValue", WorkshopApi.Ui.ToastType.Success)
+            WorkshopApi.ui.toast(
+                "配置项 exampleKey 已更新为: $updatedValue",
+                WorkshopApi.Ui.ToastType.Success
+            )
         }
     }
 
