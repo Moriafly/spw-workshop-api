@@ -27,8 +27,14 @@ dependencies {
     compileOnly(kotlin("stdlib"))
 
     // SPW Workshop API
-    compileOnly(libs.spw.workshop.api)
-    kapt(libs.spw.workshop.api)
+    project(":api").let {
+        compileOnly(it)
+        kapt(it)
+    }
+
+//     实际开发中应该使用下面的依赖
+//    compileOnly(libs.spw.workshop.api)
+//    kapt(libs.spw.workshop.api)
 }
 
 // 插件元数据配置
