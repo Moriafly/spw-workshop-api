@@ -49,7 +49,7 @@ interface WorkshopApi {
         fun createConfigManager(pluginId: String): ConfigManager
 
         @UnstableSpwWorkshopApi
-        @SinceApi("1.7", "0.1.0-dev11")
+        @SinceApi("1.7.0", "0.1.0-dev11")
         fun createConfigManager(): ConfigManager
     }
 
