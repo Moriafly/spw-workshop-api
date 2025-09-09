@@ -5,4 +5,11 @@
       <module name="spw-workshop-api.app" target="21" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="spw-workshop-api.example" options="-proc:none" />
+      <module name="spw-workshop-api.example.main" options="-proc:none" />
+      <module name="spw-workshop-api.example.test" options="-proc:none" />
+    </option>
+  </component>
 </project>
