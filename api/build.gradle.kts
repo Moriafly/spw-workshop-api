@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.Moriafly"
-version = "0.1.0-dev11"
+version = "0.1.0-dev12"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
