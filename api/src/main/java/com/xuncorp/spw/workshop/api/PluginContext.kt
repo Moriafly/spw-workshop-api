@@ -9,5 +9,12 @@ data class PluginContext(
     val pluginId: String,
     val pluginVersion: String,
     val pluginPath: String,
-    val spwVersion: String
+    val spwVersion: String,
+    val spwChannel: Channel
 )
+
+enum class Channel {
+    Demo,
+    Steam,
+    MS
+}
