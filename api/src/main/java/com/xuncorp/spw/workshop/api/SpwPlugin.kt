@@ -7,8 +7,8 @@ import org.pf4j.Plugin
  *
  * 所有 SPW 插件都必须继承自此类
  *
- * @param pluginContext 插件上下文，提供插件运行时的信息和服务
+ * @param pluginContext 插件上下文，提供插件运行时的信息
  */
-open class SpwPlugin(
+abstract class SpwPlugin(
     val pluginContext: PluginContext
 ) : Plugin()
