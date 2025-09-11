@@ -9,7 +9,6 @@ example-plugin/
 ├── src/main/kotlin/com/gg/example/
 │   ├── MainPlugin.kt                 # 插件主类
 │   ├── PlaybackExtensionExample.kt   # 播放扩展示例
-│   ├── UIHookExample.kt              # UI 扩展示例
 │   ├── ConfigExample.kt              # 配置管理示例
 ├── src/main/resources/
 │   ├── preference_config.json        # 默认配置文件

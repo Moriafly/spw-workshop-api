@@ -132,7 +132,7 @@ tasks.register<Jar>("plugin") {
 插件：
 
 ```kotlin
-class ClassicalPlugin : Plugin() {
+class ClassicalPlugin : SpwPlugin() {
     @Extension
     class PlaybackExtension : PlaybackExtensionPoint {
         // TODO 实现

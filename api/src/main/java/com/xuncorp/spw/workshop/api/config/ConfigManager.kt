@@ -68,4 +68,11 @@ interface ConfigManager {
      * @param listener 当指定文件更改时调用，参数为被修改的配置路径和对应的 ConfigHelper 实例
      */
     fun addConfigChangeListener(fileName: String, listener: Consumer<ConfigHelper>)
+
+    /**
+     * 移除一个先前添加的配置更改监听器
+     *
+     * @param listener 要移除的监听器
+     */
+    fun removeConfigChangeListener(listener: Consumer<ConfigHelper>)
 }
