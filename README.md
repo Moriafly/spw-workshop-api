@@ -150,6 +150,7 @@ class ClassicalPlugin : SpwPlugin() {
 - Plugin-Description: 插件描述 （可选）
 - Plugin-Open-Source-Url: 插件开源地址（可选）
 - Plugin-Has-Config: 插件是否有配置文件（可选），值为 "true" 或 "false" 详细见 [配置文件](docs/configs.md)
+- Plugin-Update-Url: 插件更新检查 URL（可选），SPW 将使用此 URL 检查插件更新，格式详见 [配置文件](docs/update.md)
 
 ## 混淆配置
 
