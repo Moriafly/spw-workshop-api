@@ -26,10 +26,16 @@ import com.xuncorp.spw.workshop.api.config.ConfigManager
  */
 interface WorkshopApi {
     val playback: Playback
-
     val ui: Ui
-
     val manager: Manager
+    val update: Update // 新增更新管理接口
+
+    /**
+     * 更新管理相关
+     */
+    interface Update : PluginUpdateManager {
+        // 接口继承自 PluginUpdateManager，无需额外方法
+    }
 
     /**
      * 实用工具相关
@@ -139,5 +145,10 @@ interface WorkshopApi {
             @JvmStatic
             @JvmName("manager")
             get() = instance.manager
+            
+        val update: Update // 新增更新管理访问点
+            @JvmStatic
+            @JvmName("update")
+            get() = instance.update
     }
 }
