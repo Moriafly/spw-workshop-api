@@ -24,6 +24,8 @@ kotlin {
 
 dependencies {
     api(libs.pf4j)
+    api(libs.compose.ui)
+    api(libs.salt.ui)
     testImplementation(libs.junit)
 }
 
