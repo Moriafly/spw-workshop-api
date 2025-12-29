@@ -59,23 +59,7 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
      * @param modifier Compose Modifier
      * @param activated 歌词面板是否处于活跃状态
      * 当播放界面收起时，将处于非活跃状态，但此布局树依旧保留，请在非活跃状态时减少不必要的动画等资源消耗
-     * @param showSubText 是否显示副文本（翻译等）
-     * @param blurEffect 是否启用模糊效果模糊
-     * @param threeEffect 是否启用 3D 效果
-     * TODO karaokeCompatStrategy: KaraokeCompatStrategy = KaraokeCompatStrategy.Always
-     * @param gradientPercentage 逐字渐变百分比
-     * @param componentOffset 歌词面板组件偏移，100.dp 表示组件在 y 轴方向下移 100.dp（和 Compose 逻辑相反）
-     * @param color 歌词主颜色
-     * @param fontSize 歌词主文本字体大小
-     * @param subTextFontSize 歌词副文本字体大小
-     * @param fontStyle 歌词字体样式
-     * @param fontWeight 歌词字体粗细
-     * @param fontFamily 歌词字体
-     * @param letterSpacing 歌词字间距
-     * @param textDecoration 歌词文本修饰
-     * @param textAlign 歌词文本对齐方式
-     * @param lineHeight 歌词行高
-     * @param style 歌词样式
+     * @param style 歌词面板样式
      */
     @UnstableSpwWorkshopApi
     @SinceApi("1.9.2", "0.1.0-dev15")
@@ -86,22 +70,48 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
         onTime: () -> Long,
         modifier: Modifier = Modifier,
         activated: Boolean = true,
-        showSubText: Boolean = true,
-        blurEffect: Boolean = false,
-        threeEffect: Boolean = false,
-        gradientPercentage: Float = 0.25f,
-        componentOffset: Dp = 0.dp,
-        color: Color = Color.Unspecified,
-        fontSize: TextUnit = SaltTheme.textStyles.main.fontSize,
-        subTextFontSize: TextUnit = fontSize * 0.8f,
-        fontStyle: FontStyle? = null,
-        fontWeight: FontWeight? = null,
-        fontFamily: FontFamily? = null,
-        letterSpacing: TextUnit = TextUnit.Unspecified,
-        textDecoration: TextDecoration? = null,
-        textAlign: TextAlign? = null,
-        lineHeight: TextUnit = TextUnit.Unspecified,
-        style: TextStyle = SaltTheme.textStyles.main
+        style: LyricsPanelStyle = LyricsPanelStyle()
     ) {
     }
+
+    /**
+     * 歌词面板样式
+     *
+     * @property showSubText 是否显示副文本（翻译等）
+     * @property blurEffect 是否启用模糊效果模糊
+     * @property threeEffect 是否启用 3D 效果
+     * TODO karaokeCompatStrategy: KaraokeCompatStrategy = KaraokeCompatStrategy.Always
+     * @property gradientPercentage 逐字渐变百分比
+     * @property componentOffset 歌词面板组件偏移，100.dp 表示组件在 y 轴方向下移 100.dp（和 Compose 逻辑相反）
+     * @property color 歌词主颜色
+     * @property fontSize 歌词主文本字体大小
+     * @property subTextFontSize 歌词副文本字体大小
+     * @property fontStyle 歌词字体样式
+     * @property fontWeight 歌词字体粗细
+     * @property fontFamily 歌词字体
+     * @property letterSpacing 歌词字间距
+     * @property textDecoration 歌词文本修饰
+     * @property textAlign 歌词文本对齐方式
+     * @property lineHeight 歌词行高
+     * @property style 歌词样式
+     */
+    @UnstableSpwWorkshopApi
+    data class LyricsPanelStyle(
+        val showSubText: Boolean = true,
+        val blurEffect: Boolean = false,
+        val threeEffect: Boolean = false,
+        val gradientPercentage: Float = 0.25f,
+        val componentOffset: Dp = 0.dp,
+        val color: Color = Color.Unspecified,
+        val fontSize: TextUnit = SaltTheme.textStyles.main.fontSize,
+        val subTextFontSize: TextUnit = fontSize * 0.8f,
+        val fontStyle: FontStyle? = null,
+        val fontWeight: FontWeight? = null,
+        val fontFamily: FontFamily? = null,
+        val letterSpacing: TextUnit = TextUnit.Unspecified,
+        val textDecoration: TextDecoration? = null,
+        val textAlign: TextAlign? = null,
+        val lineHeight: TextUnit = TextUnit.Unspecified,
+        val style: TextStyle = SaltTheme.textStyles.main
+    )
 }
