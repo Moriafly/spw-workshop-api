@@ -70,7 +70,7 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
         onTime: () -> Long,
         modifier: Modifier = Modifier,
         activated: Boolean = true,
-        style: LyricsPanelStyle = LyricsPanelStyle()
+        style: LyricsPanelStyle = LyricsPanelStyle.default()
     ) {
     }
 
@@ -97,21 +97,43 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
      */
     @UnstableSpwWorkshopApi
     data class LyricsPanelStyle(
-        val showSubText: Boolean = true,
-        val blurEffect: Boolean = false,
-        val threeEffect: Boolean = false,
-        val gradientPercentage: Float = 0.25f,
-        val componentOffset: Dp = 0.dp,
-        val color: Color = Color.Unspecified,
-        val fontSize: TextUnit = SaltTheme.textStyles.main.fontSize,
-        val subTextFontSize: TextUnit = fontSize * 0.8f,
-        val fontStyle: FontStyle? = null,
-        val fontWeight: FontWeight? = null,
-        val fontFamily: FontFamily? = null,
-        val letterSpacing: TextUnit = TextUnit.Unspecified,
-        val textDecoration: TextDecoration? = null,
-        val textAlign: TextAlign? = null,
-        val lineHeight: TextUnit = TextUnit.Unspecified,
-        val style: TextStyle = SaltTheme.textStyles.main
-    )
+        val showSubText: Boolean,
+        val blurEffect: Boolean,
+        val threeEffect: Boolean,
+        val gradientPercentage: Float,
+        val componentOffset: Dp,
+        val color: Color,
+        val fontSize: TextUnit,
+        val subTextFontSize: TextUnit,
+        val fontStyle: FontStyle?,
+        val fontWeight: FontWeight?,
+        val fontFamily: FontFamily?,
+        val letterSpacing: TextUnit,
+        val textDecoration: TextDecoration?,
+        val textAlign: TextAlign?,
+        val lineHeight: TextUnit,
+        val style: TextStyle
+    ) {
+        companion object {
+            @Composable
+            fun default(): LyricsPanelStyle = LyricsPanelStyle(
+                showSubText = true,
+                blurEffect = false,
+                threeEffect = false,
+                gradientPercentage = 0.25f,
+                componentOffset = 0.dp,
+                color = Color.Unspecified,
+                fontSize = SaltTheme.textStyles.main.fontSize,
+                subTextFontSize = SaltTheme.textStyles.main.fontSize * 0.8f,
+                fontStyle = null,
+                fontWeight = null,
+                fontFamily = null,
+                letterSpacing = TextUnit.Unspecified,
+                textDecoration = null,
+                textAlign = null,
+                lineHeight = TextUnit.Unspecified,
+                style = SaltTheme.textStyles.main
+            )
+        }
+    }
 }
