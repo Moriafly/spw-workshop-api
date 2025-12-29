@@ -21,7 +21,7 @@ SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库�
 ```toml
 [versions]
 # 0.1.0-dev10 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev10"
+spw-workshop-api = "0.1.0-dev14"
 
 [libraries]
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
@@ -142,14 +142,14 @@ class ClassicalPlugin : SpwPlugin() {
 
 ## 可用元数据
 插件的可用元数据如下：
-- Plugin-Class: 插件主类，必须继承自 org.pf4j.Plugin
-- Plugin-Id: 插件 ID，必须唯一 推荐使用 软件包名 如 com.xxx.xxx 类似的名称
-- Plugin-Name: 插件名称
-- Plugin-Version: 插件版本，建议遵循语义化版本规范
-- Plugin-Provider: 插件作者
-- Plugin-Description: 插件描述 （可选）
-- Plugin-Open-Source-Url: 插件开源地址（可选）
-- Plugin-Has-Config: 插件是否有配置文件（可选），值为 "true" 或 "false" 详细见 [配置文件](docs/configs.md)
+- `Plugin-Class`: 插件主类，必须继承自 `SpwPlugin`
+- `Plugin-Id`: 插件 ID，必须唯一 推荐使用 软件包名 如 `com.xxx.xxx` 类似的名称
+- `Plugin-Name`: 插件名称
+- `Plugin-Version`: 插件版本，建议遵循语义化版本规范
+- `Plugin-Provider`: 插件作者
+- `Plugin-Description`: 插件描述 （可选）
+- `Plugin-Open-Source-Url`: 插件开源地址（可选）
+- `Plugin-Has-Config`: 插件是否有配置文件（可选），值为 `true` 或 `false` 详细见 [配置文件](docs/configs.md)
 
 ## 混淆配置
 

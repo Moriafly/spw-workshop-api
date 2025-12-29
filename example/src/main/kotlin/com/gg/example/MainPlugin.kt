@@ -27,6 +27,10 @@ class MainPlugin(
         WorkshopApi.ui.toast("示例插件已删除", WorkshopApi.Ui.ToastType.Error)
     }
 
+    override fun update() {
+        WorkshopApi.ui.toast("示例插件已更新", WorkshopApi.Ui.ToastType.Success)
+    }
+
     companion object {
         @JvmStatic
         @JvmName("onExampleButtonClick")

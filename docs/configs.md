@@ -190,8 +190,10 @@
 插件开发者应该调用 `ConfigManager::addConfigChangeListener` 方法来监听配置更改事件，以获取用户在配置界面所做的更改，并做出响应
 
 ## 注意事项
-- 在调用 `Manager::createConfigManager(pluginId: String)` 时传参的 pluginId 应该与插件清单中的 Plugin-Id 一致
 - 确保配置项的 key 值与实际配置文件中的键名一致
 - 按钮类型的配置项不需要 key 属性
 - 方法调用使用反射实现，确保指定的方法是静态的、无参数且可访问
+
+  > 如果为Kotlin伴生对象，确保方法前添加 @JvmStatic 和 @JvmName 注解
+
 - 配置更改后会自动保存到对应的配置文件中
