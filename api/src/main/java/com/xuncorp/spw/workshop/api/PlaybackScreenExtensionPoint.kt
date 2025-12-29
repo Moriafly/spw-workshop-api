@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.moriafly.salt.ui.SaltTheme
+import com.xuncorp.spw.workshop.api.data.lyrics.LyricsDocument
 import org.pf4j.ExtensionPoint
 
 /**
@@ -49,6 +50,7 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
      *
      * 深浅色通过 `SaltTheme.configs.isDarkTheme` 判断，主题配色等类似
      *
+     * @param lyricsDocument 歌词文档
      * @param onLineTime 歌词行时间戳（毫秒），每当跳转新行，将接收此行的开始时间戳
      * 当前 SPW 1.9 版本未公开 SPW 内部歌词数据，尽量依赖于 [onTime]
      * TODO SPW 公开其内部 LyricsDocument/LyricsLine/LyricsCell，避免不必要的当前行判断，或插件作者自行处理逻辑
@@ -75,9 +77,11 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
      * @param lineHeight 歌词行高
      * @param style 歌词样式
      */
+    @UnstableSpwWorkshopApi
     @SinceApi("1.9.2", "0.1.0-dev15")
     @Composable
     fun LyricsPanel(
+        lyricsDocument: LyricsDocument,
         onLineTime: () -> Long,
         onTime: () -> Long,
         modifier: Modifier = Modifier,
