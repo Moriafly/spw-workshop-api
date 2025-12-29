@@ -10,6 +10,7 @@ spw-workshop-api = "0.1.0-dev10"
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 pf4j = { group = "org.pf4j", name = "pf4j", version.ref = "pf4j" }
 compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "compose-multiplatform" }
+compose-foundation = { group = "org.jetbrains.compose.ui", name = "ui-foundation", version.ref = "compose-multiplatform" }
 salt-ui = { group = "io.github.moriafly", name = "salt-ui", version.ref = "salt-ui" }
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
 
