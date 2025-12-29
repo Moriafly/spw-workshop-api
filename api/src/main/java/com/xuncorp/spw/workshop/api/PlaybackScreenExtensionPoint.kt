@@ -41,7 +41,7 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
     /**
      * 是否支持歌词面板
      */
-    @SinceApi("1.9.2", "0.1.0-dev14")
+    @SinceApi("1.9.2", "0.1.0-dev15")
     fun isSupportedLyricsPanel(): Boolean = false
 
     /**
@@ -75,7 +75,7 @@ interface PlaybackScreenExtensionPoint : ExtensionPoint {
      * @param lineHeight 歌词行高
      * @param style 歌词样式
      */
-    @SinceApi("1.9.2", "0.1.0-dev14")
+    @SinceApi("1.9.2", "0.1.0-dev15")
     @Composable
     fun LyricsPanel(
         onLineTime: () -> Long,
