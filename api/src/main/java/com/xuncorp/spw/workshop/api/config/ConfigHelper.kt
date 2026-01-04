@@ -20,7 +20,6 @@
 package com.xuncorp.spw.workshop.api.config
 
 import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
-
 import java.nio.file.Path
 
 @UnstableSpwWorkshopApi
