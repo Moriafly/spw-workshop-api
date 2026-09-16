@@ -80,6 +80,22 @@ interface PlaybackExtensionPoint : ExtensionPoint {
     fun onLyricsLineUpdated(lyricsLine: LyricsLine?) {}
 
     /**
+     * 当前歌曲的完整歌词时间轴更新
+     *
+     * 插件启动或重新启用后异步重放当前列表，包括空列表
+     * 换曲、歌词重载时发布空列表，加载完成后发布全部解析行
+     * 空列表统一表示当前没有可用时间轴，不区分加载中、无歌词和加载失败
+     *
+     * 不应依赖通知次数判断加载次数；相同内容重新加载后也可能再次通知
+     * 回调内读取 [WorkshopApi.Playback.getLyricsLines] 可能得到更新的列表
+     *
+     * @param lyricsLines 不可修改的完整歌词列表，逐字列表也不可修改；时间和顺序沿用解析结果
+     * @see WorkshopApi.Playback.getLyricsLines
+     */
+    @SinceApi("1.19.0", "0.1.0-dev21")
+    fun onLyricsLinesUpdated(lyricsLines: List<LyricsLine>) {}
+
+    /**
      * 每秒钟调用一次，当前播放时间更新
      */
     @SinceApi("1.6.20", "0.1.0-dev10")

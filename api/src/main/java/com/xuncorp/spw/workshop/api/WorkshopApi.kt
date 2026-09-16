@@ -58,6 +58,19 @@ interface WorkshopApi {
      */
     interface Playback {
         /**
+         * 读取当前歌曲已解析的完整歌词时间轴
+         *
+         * 加载中、无歌词、加载失败或无时间戳文本均返回空列表
+         *
+         * 已持有的列表不会随宿主更新而改变，但可能已经不属于当前歌曲
+         *
+         * @return 完整歌词行列表；旧宿主实现使用此默认方法时返回空列表
+         * @see PlaybackExtensionPoint.onLyricsLinesUpdated
+         */
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        fun getLyricsLines(): List<PlaybackExtensionPoint.LyricsLine> = emptyList()
+
+        /**
          * 更改是否独占音频
          *
          * **必须在主线程调用**
