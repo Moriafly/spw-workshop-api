@@ -51,6 +51,12 @@ interface WorkshopApi {
         @UnstableSpwWorkshopApi
         @SinceApi("1.7.0", "0.1.0-dev11")
         fun createConfigManager(): ConfigManager
+
+        /**
+         * 插件快捷键的注册与注销
+         */
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val keyBindingManager: KeyBindingManager
     }
 
     /**

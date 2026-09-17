@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.Moriafly"
-version = "0.1.0-dev20"
+version = "0.1.0-dev21"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -30,9 +30,29 @@ dependencies {
     testImplementation(libs.junit)
 }
 
+// 旧消费者必须只针对已发布的 dev20 编译，运行时再换成当前 API
+val legacyApi by configurations.creating
+val legacyFixture = sourceSets.create("legacyFixture")
+dependencies {
+    legacyApi("com.github.Moriafly:spw-workshop-api:0.1.0-dev20") { isTransitive = false }
+    add(legacyFixture.implementationConfigurationName, files(legacyApi))
+    add(legacyFixture.implementationConfigurationName, kotlin("stdlib"))
+    add(legacyFixture.implementationConfigurationName, libs.pf4j)
+    testImplementation(files(legacyFixture.output))
+}
+
+tasks.test {
+    dependsOn(legacyFixture.classesTaskName)
+    doFirst {
+        systemProperty("compat.legacyJar", legacyApi.singleFile.absolutePath)
+        systemProperty("compat.runtimeClasspath", configurations.testRuntimeClasspath.get().asPath)
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("maven") {
+            artifactId = "spw-workshop-api"
             from(components["java"])
         }
     }
