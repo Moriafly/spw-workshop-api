@@ -108,6 +108,18 @@ interface WorkshopApi {
      */
     interface Playback {
         /**
+         * 获取当前歌曲的 MediaItem 快照
+         *
+         * 无当前歌曲时返回 null
+         * 数据与 [Library.getTrackById] 一致，返回不可变快照，后续更新不会改变旧结果
+         * 调用会阻塞直到数据库查询完成，建议在后台线程调用
+         *
+         * @return 当前歌曲的 MediaItem 快照
+         */
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        fun getCurrentMediaItem(): MediaItem?
+
+        /**
          * 读取当前歌曲已解析的完整歌词时间轴
          *
          * 加载中、无歌词、加载失败或无时间戳文本均返回空列表

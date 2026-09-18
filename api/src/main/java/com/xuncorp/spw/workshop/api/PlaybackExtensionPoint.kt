@@ -111,7 +111,8 @@ interface PlaybackExtensionPoint : ExtensionPoint {
     /**
      * 不可变媒体项，按全部字段比较
      *
-     * 曲库查询提供数据库中保存的元数据，歌词加载回调提供播放项的 ID 和原有五个字段
+     * 曲库查询和 [WorkshopApi.Playback.getCurrentMediaItem] 提供数据库中保存的元数据
+     * 歌词加载回调提供播放项的 ID 和原有五个字段
      * 未提供的新增字段使用空字符串、0 或 false，不代表已经查询过曲库或检查过文件
      *
      * @property title 标题
