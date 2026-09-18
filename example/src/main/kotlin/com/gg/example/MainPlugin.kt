@@ -21,6 +21,7 @@ class MainPlugin(
         println(pluginContext.toString())
 
         ConfigExample()
+        LibraryExample.printFirstPage()
         keyBindings.register(
             actionId = "example-button",
             title = "示例按钮",

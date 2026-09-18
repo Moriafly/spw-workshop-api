@@ -19,7 +19,9 @@
 
 package com.xuncorp.spw.workshop.api
 
+import com.xuncorp.spw.workshop.api.PlaybackExtensionPoint.MediaItem
 import com.xuncorp.spw.workshop.api.config.ConfigManager
+import java.util.concurrent.CompletionStage
 
 /**
  * SPW 创意工坊 API
@@ -30,6 +32,48 @@ interface WorkshopApi {
     val ui: Ui
 
     val manager: Manager
+
+    @SinceApi("1.19.0", "0.1.0-dev21")
+    val library: Library
+
+    /**
+     * 查询音乐库中的歌曲信息
+     *
+     * 返回值是不可修改的快照，后续数据库更新不会改变已持有的结果
+     *
+     * API 注入后即可查询，已接受的查询可在插件停用后完成
+     * 插件负责停用后后续动作的处理；取消转换出的 future 不承诺取消数据库读取
+     * 非 Async 后续动作可能在完成线程或注册动作的线程执行，不保证固定线程
+     */
+    @SinceApi("1.19.0", "0.1.0-dev21")
+    interface Library {
+        /**
+         * 按歌曲 ID 查询
+         *
+         * @return 查询时对应的歌曲，ID 不存在时为 null
+         */
+        fun getTrackById(id: String): CompletionStage<MediaItem?>
+
+        /**
+         * 一次查询完整曲库，按 ID 的数据库 BINARY 顺序升序排列
+         *
+         * 空库返回空列表
+         */
+        fun getAllTracks(): CompletionStage<List<MediaItem>>
+
+        /**
+         * 按 ID 游标分页查询，按数据库 BINARY 顺序升序排列
+         *
+         * 每页独立读取最新状态，不承诺跨页快照一致性
+         * 已经过的 ID 区间内新增的歌曲可能不会出现在本轮遍历中
+         * 需要单次一致结果时使用 [getAllTracks]
+         *
+         * @param afterId null 表示首页，否则只返回 ID 大于此值的歌曲；该 ID 不必仍存在
+         * @param limit 正数，不设额外上限；非法值通过失败的 stage 返回 IllegalArgumentException
+         * @return 至多 limit 首歌曲；不足 limit 表示此次查询已到末尾，下一页传本页最后一首的 ID
+         */
+        fun getTracks(afterId: String?, limit: Int): CompletionStage<List<MediaItem>>
+    }
 
     /**
      * 实用工具相关
@@ -158,5 +202,11 @@ interface WorkshopApi {
             @JvmStatic
             @JvmName("manager")
             get() = instance.manager
+
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val library: Library
+            @JvmStatic
+            @JvmName("library")
+            get() = instance.library
     }
 }
