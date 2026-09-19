@@ -39,7 +39,8 @@ interface WorkshopApi {
     /**
      * 查询音乐库中的歌曲信息
      *
-     * 返回值是不可修改的快照，后续数据库更新不会改变已持有的结果
+     * 歌曲信息是不可修改的快照，封面字节数组的所有权见 [getCoverById]
+     * 后续数据库或文件更新不会改变已持有的结果
      *
      * API 注入后即可查询，已接受的查询可在插件停用后完成
      * 插件负责停用后后续动作的处理；取消转换出的 future 不承诺取消数据库读取
@@ -53,6 +54,18 @@ interface WorkshopApi {
          * @return 查询时对应的歌曲，ID 不存在时为 null
          */
         fun getTrackById(id: String): CompletionStage<MediaItem?>
+
+        /**
+         * 按歌曲 ID 读取音频文件的内嵌封面
+         *
+         * 返回原始编码图片数据，如 JPEG 或 PNG
+         * 每次成功调用返回独立的非空字节数组，调用方可以修改，不影响宿主缓存或其他调用结果
+         *
+         * @param id 音乐库歌曲 ID，与 [MediaItem.id] 一致，不是文件路径
+         * @return ID 不存在、无内嵌封面或宿主无法读取封面时为 null；数据库查询失败通过 stage 报错
+         */
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        fun getCoverById(id: String): CompletionStage<ByteArray?>
 
         /**
          * 一次查询完整曲库，按 ID 的数据库 BINARY 顺序升序排列
