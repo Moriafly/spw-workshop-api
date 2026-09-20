@@ -19,13 +19,17 @@ example-plugin/
 ### 构建插件
 
 1. 克隆项目到本地
-2. 在项目根目录执行构建命令：
+2. 在仓库根目录执行构建命令：
 
 ```bash
-./gradlew plugin
+./gradlew :example:plugin
 ```
 
-3. 构建完成后，插件文件会自动复制到 SPW 插件目录
+3. 构建完成后，产物位于 `example/build/libs/plugin-com.gg.example-1.0.0.spmod`
+
+`com.xuncorp.spw.workshop` Gradle 插件自动注册 `plugin` 任务，将主 JAR 内容放入 `classes/`，运行时 JAR 依赖放入 `lib/`
+
+插件信息统一填写在 `build.gradle.kts` 的 `spmod {}` 中，自动生成 Manifest 和分发包文件名，无需额外配置 `jar` 或 `plugin` 任务
 
 ### 安装插件
 
