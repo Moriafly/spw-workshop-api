@@ -5,6 +5,7 @@ package com.gg.example
 
 import com.xuncorp.spw.workshop.api.ActionShortcut
 import com.xuncorp.spw.workshop.api.PluginContext
+import com.xuncorp.spw.workshop.api.PluginPermission
 import com.xuncorp.spw.workshop.api.SpwPlugin
 import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 import com.xuncorp.spw.workshop.api.WorkshopApi
@@ -22,16 +23,18 @@ class MainPlugin(
 
         ConfigExample()
         LibraryExample.printFirstPage()
-        keyBindings.register(
-            actionId = "example-button",
-            title = "示例按钮",
-            defaultShortcut = ActionShortcut(
-                KeyEvent.VK_E,
-                ActionShortcut.CONTROL or ActionShortcut.ALT
-            ),
-            hasGlobal = true,
-            handler = { onExampleButtonClick() }
-        )
+        if (WorkshopApi.manager.isPermissionGranted(PluginPermission.KEY_BINDINGS)) {
+            keyBindings.register(
+                actionId = "example-button",
+                title = "示例按钮",
+                defaultShortcut = ActionShortcut(
+                    KeyEvent.VK_E,
+                    ActionShortcut.CONTROL or ActionShortcut.ALT
+                ),
+                hasGlobal = true,
+                handler = { onExampleButtonClick() }
+            )
+        }
     }
 
     override fun stop() {

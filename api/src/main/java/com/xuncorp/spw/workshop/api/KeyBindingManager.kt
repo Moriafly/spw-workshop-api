@@ -11,6 +11,7 @@ interface KeyBindingManager {
      * 注册当前插件的快捷键
      * 用户绑定优先于 [defaultShortcut]；应用内键在文本输入时不触发，冲突键不触发
      * 句柄可从任意线程幂等关闭，插件停用时自动注销；已获执行资格的回调可完成
+     * 需要在 Gradle 的 spmod.PluginPermissions 中声明快捷键权限，并由用户授予 [PluginPermission.KEY_BINDINGS]
      *
      * @param actionId 快捷键 ID，最多 128 字符，只能包含字母、数字、点、下划线或连字符
      * @param title 非空显示名称，最多 128 字符
@@ -20,6 +21,7 @@ interface KeyBindingManager {
      *
      * @throws IllegalArgumentException 参数无效或 ID 重复
      * @throws IllegalStateException 无法识别插件或不在其 start 线程内注册
+     * @throws PluginPermissionDeniedException 当前插件未声明或未获得快捷键权限
      */
     fun register(
         actionId: String,

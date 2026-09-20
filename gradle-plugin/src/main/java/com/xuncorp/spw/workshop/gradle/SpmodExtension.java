@@ -1,5 +1,7 @@
 package com.xuncorp.spw.workshop.gradle;
 
+import java.util.List;
+
 /**
  * spmod 配置块，字段名与插件 Manifest 中的元数据对应
  *
@@ -46,4 +48,11 @@ public class SpmodExtension {
      * 插件开源地址，对应 Plugin-Open-Source-Url，未设置时不写入 Manifest
      */
     public String PluginOpenSourceUrl;
+
+    /**
+     * 申请的宿主权限，对应 Plugin-Permissions，默认空列表
+     * <p>
+     * 声明后仍需用户在宿主中勾选授权
+     */
+    public List<PluginPermission> PluginPermissions = List.of();
 }

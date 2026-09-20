@@ -114,6 +114,15 @@ interface WorkshopApi {
          */
         @SinceApi("1.19.0", "0.1.0-dev21")
         val keyBindingManager: KeyBindingManager
+
+        /**
+         * 同步查询当前调用插件是否已获得 [permission]
+         *
+         * 未声明、未授权时返回 false
+         * 停用保留授权，删除插件后清除；普通更新保留已确认的权限
+         */
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        fun isPermissionGranted(permission: PluginPermission): Boolean = false
     }
 
     /**
