@@ -138,7 +138,7 @@ class ClassicalPlugin : SpwPlugin() {
 | `PluginDescription` | `Plugin-Description` | 可选，插件描述 |
 | `PluginOpenSourceUrl` | `Plugin-Open-Source-Url` | 可选，插件开源地址 |
 | `PluginHasConfig` | `Plugin-Has-Config` | 可选，布尔值，默认 `false`，详见 [配置文件](docs/configs.md) |
-| `PluginPermissions` | `Plugin-Permissions` | 可选，权限枚举列表，默认空列表；快捷键需声明 `listOf(PluginPermission.KEY_BINDINGS)`，详见 [插件权限](docs/permissions.md) |
+| `PluginPermissions` | `Plugin-Permissions` | 可选，权限枚举列表，默认空列表；快捷键需声明 `KEY_BINDINGS`，曲库查询需声明 `LIBRARY_READ`，详见 [插件权限](docs/permissions.md) |
 
 必填字段未设置或为空白时，构建会提示对应的 `spmod` 字段。未设置的可选字符串不会写入 Manifest。
 

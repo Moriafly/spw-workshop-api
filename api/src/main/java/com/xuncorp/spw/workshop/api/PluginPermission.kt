@@ -13,5 +13,17 @@ enum class PluginPermission(val id: String) {
     /**
      * 注册应用内快捷键，并可通过 hasGlobal 允许用户配置全局快捷键
      */
-    KEY_BINDINGS("key-bindings")
+    KEY_BINDINGS("key-bindings"),
+
+    /**
+     * 读取曲库歌曲元数据、文件路径、收藏状态和内嵌封面，包括当前歌曲的元数据查询
+     */
+    LIBRARY_READ("library-read"),
+
+    /**
+     * 写入曲库数据，不包含读取权限
+     *
+     * 预留给后续曲库写入接口，当前 API 尚未提供写入能力
+     */
+    LIBRARY_WRITE("library-write")
 }

@@ -11,7 +11,7 @@ spmod {
     PluginClass = "com.example.MyPlugin"
     PluginId = "com.example.my-plugin"
     PluginVersion = "1.0.0"
-    PluginPermissions = listOf(PluginPermission.KEY_BINDINGS)
+    PluginPermissions = listOf(PluginPermission.KEY_BINDINGS, PluginPermission.LIBRARY_READ)
 }
 ```
 
@@ -24,7 +24,7 @@ spmod { config ->
     config.PluginClass = 'com.example.MyPlugin'
     config.PluginId = 'com.example.my-plugin'
     config.PluginVersion = '1.0.0'
-    config.PluginPermissions = [PluginPermission.KEY_BINDINGS]
+    config.PluginPermissions = [PluginPermission.KEY_BINDINGS, PluginPermission.LIBRARY_READ]
 }
 ```
 
@@ -33,6 +33,10 @@ spmod { config ->
 | Gradle 枚举 | Manifest 标识 | API 常量 | 能力 |
 | --- | --- | --- | --- |
 | `PluginPermission.KEY_BINDINGS` | `key-bindings` | `PluginPermission.KEY_BINDINGS` | 注册应用内快捷键，并可通过 `hasGlobal` 允许用户自行配置全局快捷键 |
+| `PluginPermission.LIBRARY_READ` | `library-read` | `PluginPermission.LIBRARY_READ` | 查询曲库歌曲元数据、文件路径、收藏状态和内嵌封面，包括当前歌曲的元数据查询 |
+| `PluginPermission.LIBRARY_WRITE` | `library-write` | `PluginPermission.LIBRARY_WRITE` | 写入曲库数据的独立权限；为后续接口预留，当前 API 尚无写入入口 |
+
+读写权限互不包含。插件只应申请实际使用的权限；当前曲库查询只需声明 `LIBRARY_READ`，无需申请 `LIBRARY_WRITE`
 
 ## 查询与失败处理
 
@@ -80,6 +84,48 @@ public void start() {
 
 未声明或未经授权时，`register` 同步抛出 `PluginPermissionDeniedException`，异常的 `pluginId` 与 `permission` 标明被拒绝的插件及所需权限。该异常继承 `SecurityException`，Java 可通过 `getPluginId()`、`getPermission()` 读取。调用归属、注册时机和参数约束仍适用；注销与关闭注册句柄无需权限
 
+## 曲库读取
+
+`WorkshopApi.library` 的 `getTrackById`、`getAllTracks`、`getTracks`、`getCoverById` 均要求 `LIBRARY_READ`。权限不足时返回失败的 `CompletionStage`，不会启动数据读取。宿主在调用线程识别插件，在读取前与交付结果前重新校验权限和加载身份；缓存或向其他插件传递 Library 引用不会转移授权
+
+Kotlin（运行时代码导入 `com.xuncorp.spw.workshop.api.PluginPermission`）：
+
+```kotlin
+if (WorkshopApi.manager.isPermissionGranted(PluginPermission.LIBRARY_READ)) {
+    WorkshopApi.library.getTracks(afterId = null, limit = 20)
+        .whenComplete { tracks, failure ->
+            val cause = (failure as? java.util.concurrent.CompletionException)?.cause ?: failure
+            when (cause) {
+                null -> tracks.forEach { println(it.title) }
+                is PluginPermissionDeniedException -> println("曲库读取权限不可用")
+                else -> cause.printStackTrace()
+            }
+        }
+}
+```
+
+Java：
+
+```java
+if (WorkshopApi.manager().isPermissionGranted(PluginPermission.LIBRARY_READ)) {
+    WorkshopApi.library().getTracks(null, 20).whenComplete((tracks, failure) -> {
+        Throwable cause = failure instanceof java.util.concurrent.CompletionException
+                ? failure.getCause() : failure;
+        if (cause == null) {
+            tracks.forEach(track -> System.out.println(track.getTitle()));
+        } else if (cause instanceof PluginPermissionDeniedException) {
+            System.out.println("曲库读取权限不可用");
+        } else {
+            cause.printStackTrace();
+        }
+    });
+}
+```
+
+主动查询权限只用于功能降级，不能替代失败处理。`Playback.getCurrentMediaItem()` 也需要该权限，即使当前没有歌曲：调用时未授权会同步抛出 `PluginPermissionDeniedException`，查询期间的权限拒绝通过 `CompletionException` 的 cause 返回。无法识别调用者或已卸载类发起的新调用也会拒绝，异常的 `pluginId` 为 `unknown`
+
+停用插件保留授权，已接受的查询可以继续完成；交付结果前撤销授权或卸载插件会令查询失败。同 ID 插件重新加载后，旧调用与旧类不能复用新加载实例的权限。已经成功交付的快照不会被收回。取消转换出的 future 不保证取消底层读取
+
 ## 用户决定与生命周期
 
 - 首次启用时，在宿主现有的启用弹窗中显示权限及用途，新权限默认不勾选。用户可以不授予权限而启用插件，插件应据查询结果保留可用功能；未处理的注册拒绝异常会导致启动失败
@@ -88,7 +134,7 @@ public void start() {
 - 更新新增权限时暂停自动启动，等待用户重新确认；新权限不会自动授予。依赖链中存在待确认权限时也不会自动启动，需先确认相应依赖插件
 - 未知权限在启用弹窗中标记为不支持，无法授予
 - 删除本地插件或取消 Steam 订阅会清除决定，再次安装需要重新授权；卸载类加载器以更新插件时保留决定
-- 旧插件未声明权限时没有快捷键权限，需要补充 Gradle 声明。旧 JVM 成员保持兼容，但权限检查是新增的行为约束
+- 插件必须为受保护的能力补充 Gradle 权限声明，并处理用户拒绝授权的情况
 
 API 的查询方法提供返回 `false` 的 JVM 默认实现，以兼容旧的 Manager 实现类；这不使新消费者能够在缺少该方法的旧 API JAR 上运行
 

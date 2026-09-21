@@ -1,8 +1,10 @@
 package com.gg.example
 
 import com.xuncorp.spw.workshop.api.PlaybackExtensionPoint.MediaItem
+import com.xuncorp.spw.workshop.api.PluginPermissionDeniedException
 import com.xuncorp.spw.workshop.api.WorkshopApi
 import java.util.concurrent.CompletionStage
+import java.util.concurrent.CompletionException
 
 object LibraryExample {
     fun printFirstPage(): CompletionStage<Void> =
@@ -13,7 +15,12 @@ object LibraryExample {
                 }
             }
             .exceptionally { error ->
-                error.printStackTrace()
+                val cause = (error as? CompletionException)?.cause ?: error
+                if (cause is PluginPermissionDeniedException) {
+                    println("曲库读取权限未授予")
+                } else {
+                    cause.printStackTrace()
+                }
                 null
             }
 }

@@ -42,7 +42,9 @@ interface WorkshopApi {
      * 歌曲信息是不可修改的快照，封面字节数组的所有权见 [getCoverById]
      * 后续数据库或文件更新不会改变已持有的结果
      *
-     * API 注入后即可查询，已接受的查询可在插件停用后完成
+     * 音乐库查询均要求声明并获得 [PluginPermission.LIBRARY_READ]
+     * 未声明、未授权时，stage 以 [PluginPermissionDeniedException] 失败
+     * 停用保留授权，已接受的查询可在停用后完成；交付前撤销授权或卸载插件则拒绝交付
      * 插件负责停用后后续动作的处理；取消转换出的 future 不承诺取消数据库读取
      * 非 Async 后续动作可能在完成线程或注册动作的线程执行，不保证固定线程
      */
@@ -136,7 +138,11 @@ interface WorkshopApi {
          * 数据与 [Library.getTrackById] 一致，返回不可变快照，后续更新不会改变旧结果
          * 调用会阻塞直到数据库查询完成，建议在后台线程调用
          *
+         * 要求声明并获得 [PluginPermission.LIBRARY_READ]，无当前歌曲时也会校验权限
+         * 查询期间撤销授权或卸载插件的拒绝通过 CompletionException 的 cause 返回
+         *
          * @return 当前歌曲的 MediaItem 快照
+         * @throws PluginPermissionDeniedException 调用时未声明、未授权或无法识别调用插件
          */
         @SinceApi("1.19.0", "0.1.0-dev21")
         fun getCurrentMediaItem(): MediaItem?

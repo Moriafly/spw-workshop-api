@@ -48,6 +48,6 @@ spmod {
     PluginVersion = "1.0.0"
     PluginProvider = "Zeshi Palace"
     PluginHasConfig = true
-    PluginPermissions = listOf(PluginPermission.KEY_BINDINGS)
+    PluginPermissions = listOf(PluginPermission.KEY_BINDINGS, PluginPermission.LIBRARY_READ)
     PluginOpenSourceUrl = "https://github.com/Moriafly/spw-workshop-api/tree/main/example"
 }
