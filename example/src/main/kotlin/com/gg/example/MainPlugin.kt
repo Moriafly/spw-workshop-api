@@ -3,23 +3,42 @@
 
 package com.gg.example
 
+import com.xuncorp.spw.workshop.api.ActionShortcut
 import com.xuncorp.spw.workshop.api.PluginContext
+import com.xuncorp.spw.workshop.api.PluginPermission
 import com.xuncorp.spw.workshop.api.SpwPlugin
 import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 import com.xuncorp.spw.workshop.api.WorkshopApi
 import com.xuncorp.spw.workshop.api.config.ConfigHelper
+import java.awt.event.KeyEvent
 
 class MainPlugin(
     pluginContext: PluginContext
 ) : SpwPlugin(pluginContext) {
+    private val keyBindings = WorkshopApi.manager.keyBindingManager
+
     override fun start() {
         WorkshopApi.ui.toast("示例插件已启动", WorkshopApi.Ui.ToastType.Success)
         println(pluginContext.toString())
 
         ConfigExample()
+        LibraryExample.printFirstPage()
+        if (WorkshopApi.manager.isPermissionGranted(PluginPermission.KEY_BINDINGS)) {
+            keyBindings.register(
+                actionId = "example-button",
+                title = "示例按钮",
+                defaultShortcut = ActionShortcut(
+                    KeyEvent.VK_E,
+                    ActionShortcut.CONTROL or ActionShortcut.ALT
+                ),
+                hasGlobal = true,
+                handler = { onExampleButtonClick() }
+            )
+        }
     }
 
     override fun stop() {
+        keyBindings.unregister(actionId = "example-button")
         WorkshopApi.ui.toast("示例插件已停止", WorkshopApi.Ui.ToastType.Warning)
     }
 

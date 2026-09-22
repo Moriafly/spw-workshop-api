@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.Moriafly"
-version = "0.1.0-dev20"
+version = "0.1.0-dev21"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -33,6 +33,7 @@ dependencies {
 publishing {
     publications {
         create<MavenPublication>("maven") {
+            artifactId = "spw-workshop-api"
             from(components["java"])
         }
     }

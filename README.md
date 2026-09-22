@@ -16,15 +16,41 @@ SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库�
 
 ## 使用方法
 
-新建 Kotlin/Java 库项目，添加依赖（libs.version.toml）：
+新建 Kotlin/Java 库项目，在 `gradle/libs.versions.toml` 中添加 API 依赖：
 
 ```toml
 [versions]
-# 0.1.0-dev10 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev14"
+# 0.1.0-dev21 替换为最新的（或需要的）版本
+spw-workshop-api = "0.1.0-dev21"
 
 [libraries]
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
+```
+
+在 `settings.gradle.kts` 中配置 Gradle 插件和库依赖仓库：
+
+```kotlin
+pluginManagement {
+    repositories {
+        maven("https://jitpack.io")
+        gradlePluginPortal()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "com.xuncorp.spw.workshop") {
+                useModule("com.github.Moriafly:spw-workshop-gradle-plugin:${requested.version}")
+            }
+        }
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven("https://jitpack.io")
+    }
+}
 ```
 
 模块 gradle 类型写法：
@@ -33,8 +59,9 @@ spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", v
 ```gradle
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '2.0.21'
-    id 'org.jetbrains.kotlin.kapt' version '2.0.21'
+    id 'org.jetbrains.kotlin.jvm' version '2.3.0'
+    id 'org.jetbrains.kotlin.kapt' version '2.3.0'
+    id 'com.xuncorp.spw.workshop' version '0.1.0-dev21'
 }
 
 dependencies {
@@ -44,38 +71,15 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
-def pluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
-def pluginId = "workshop-classical"
-def pluginVersion = "0.0.9"
-def pluginProvider = "Xuncorp"
-
-tasks.named("jar") {
-    manifest {
-        attributes["Plugin-Class"] = pluginClass
-        attributes["Plugin-Id"] = pluginId
-        attributes["Plugin-Version"] = pluginVersion
-        attributes["Plugin-Provider"] = pluginProvider
-    }
-}
-
-tasks.register("plugin", Jar) {
-    archiveBaseName.set("plugin-" + pluginId + "-" + pluginVersion)
-
-    into("classes") {
-        with(tasks.named("jar").get())
-    }
-    dependsOn(configurations.runtimeClasspath)
-    into("lib") {
-        from({
-            configurations.runtimeClasspath
-                    .filter { it.name.endsWith("jar") }
-        })
-    }
-    archiveExtension = 'zip'
+spmod { config ->
+    config.PluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
+    config.PluginId = "workshop-classical"
+    config.PluginVersion = "0.0.9"
+    config.PluginProvider = "Xuncorp"
 }
 ```
 
@@ -83,13 +87,14 @@ tasks.register("plugin", Jar) {
 ```kotlin
 plugins {
     id("java-library")
-    alias(libs.plugins.jetbrainsKotlinJvm)
-    kotlin("kapt")
+    kotlin("jvm") version "2.3.0"
+    kotlin("kapt") version "2.3.0"
+    id("com.xuncorp.spw.workshop") version "0.1.0-dev21"
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 dependencies {
@@ -98,36 +103,15 @@ dependencies {
     kapt(libs.spw.workshop.api)
 }
 
-val pluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
-val pluginId = "workshop-classical"
-val pluginVersion = "0.0.9"
-val pluginProvider = "Xuncorp"
-
-tasks.named<Jar>("jar") {
-    manifest {
-        attributes["Plugin-Class"] = pluginClass
-        attributes["Plugin-Id"] = pluginId
-        attributes["Plugin-Version"] = pluginVersion
-        attributes["Plugin-Provider"] = pluginProvider
-    }
-}
-
-tasks.register<Jar>("plugin") {
-    archiveBaseName.set("plugin-$pluginId-$pluginVersion")
-
-    into("classes") {
-        with(tasks.named<Jar>("jar").get())
-    }
-    dependsOn(configurations.runtimeClasspath)
-    into("lib") {
-        from({
-            configurations.runtimeClasspath.get()
-                .filter { it.name.endsWith("jar") }
-        })
-    }
-    archiveExtension.set("zip")
+spmod {
+    PluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
+    PluginId = "workshop-classical"
+    PluginVersion = "0.0.9"
+    PluginProvider = "Xuncorp"
 }
 ```
+
+执行 `./gradlew plugin` 后，产物位于该模块的 `build/libs/plugin-<插件 ID>-<插件版本>.spmod`。
 
 插件：
 
@@ -141,15 +125,22 @@ class ClassicalPlugin : SpwPlugin() {
 ```
 
 ## 可用元数据
-插件的可用元数据如下：
-- `Plugin-Class`: 插件主类，必须继承自 `SpwPlugin`
-- `Plugin-Id`: 插件 ID，必须唯一 推荐使用 软件包名 如 `com.xxx.xxx` 类似的名称
-- `Plugin-Name`: 插件名称
-- `Plugin-Version`: 插件版本，建议遵循语义化版本规范
-- `Plugin-Provider`: 插件作者
-- `Plugin-Description`: 插件描述 （可选）
-- `Plugin-Open-Source-Url`: 插件开源地址（可选）
-- `Plugin-Has-Config`: 插件是否有配置文件（可选），值为 `true` 或 `false` 详细见 [配置文件](docs/configs.md)
+
+`spmod` 字段使用大写开头的名称，均可用 `=` 赋值。Groovy 中通过配置对象访问字段，以避免 `PluginId` 与 Gradle 默认导入的同名类型冲突：
+
+| 字段 | Manifest 属性 | 说明 |
+| --- | --- | --- |
+| `PluginClass` | `Plugin-Class` | 必填，继承自 `SpwPlugin` 的插件主类完整类名 |
+| `PluginId` | `Plugin-Id` | 必填，唯一插件 ID，推荐使用 `com.xxx.xxx` 格式 |
+| `PluginVersion` | `Plugin-Version` | 必填，插件版本，建议遵循语义化版本规范 |
+| `PluginProvider` | `Plugin-Provider` | 可选，插件作者 |
+| `PluginName` | `Plugin-Name` | 可选，插件显示名称 |
+| `PluginDescription` | `Plugin-Description` | 可选，插件描述 |
+| `PluginOpenSourceUrl` | `Plugin-Open-Source-Url` | 可选，插件开源地址 |
+| `PluginHasConfig` | `Plugin-Has-Config` | 可选，布尔值，默认 `false`，详见 [配置文件](docs/configs.md) |
+| `PluginPermissions` | `Plugin-Permissions` | 可选，权限枚举列表，默认空列表；快捷键需声明 `KEY_BINDINGS`，曲库查询需声明 `LIBRARY_READ`，详见 [插件权限](docs/permissions.md) |
+
+必填字段未设置或为空白时，构建会提示对应的 `spmod` 字段。未设置的可选字符串不会写入 Manifest。
 
 ## 混淆配置
 

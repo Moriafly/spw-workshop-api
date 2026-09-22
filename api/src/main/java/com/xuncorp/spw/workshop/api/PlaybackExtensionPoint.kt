@@ -80,6 +80,22 @@ interface PlaybackExtensionPoint : ExtensionPoint {
     fun onLyricsLineUpdated(lyricsLine: LyricsLine?) {}
 
     /**
+     * 当前歌曲的完整歌词时间轴更新
+     *
+     * 插件启动或重新启用后异步重放当前列表，包括空列表
+     * 换曲、歌词重载时发布空列表，加载完成后发布全部解析行
+     * 空列表统一表示当前没有可用时间轴，不区分加载中、无歌词和加载失败
+     *
+     * 不应依赖通知次数判断加载次数；相同内容重新加载后也可能再次通知
+     * 回调内读取 [WorkshopApi.Playback.getLyricsLines] 可能得到更新的列表
+     *
+     * @param lyricsLines 不可修改的完整歌词列表，逐字列表也不可修改；时间和顺序沿用解析结果
+     * @see WorkshopApi.Playback.getLyricsLines
+     */
+    @SinceApi("1.19.0", "0.1.0-dev21")
+    fun onLyricsLinesUpdated(lyricsLines: List<LyricsLine>) {}
+
+    /**
      * 每秒钟调用一次，当前播放时间更新
      */
     @SinceApi("1.6.20", "0.1.0-dev10")
@@ -93,21 +109,83 @@ interface PlaybackExtensionPoint : ExtensionPoint {
     }
 
     /**
-     * 媒体项
+     * 不可变媒体项，按全部字段比较
+     *
+     * 曲库查询和 [WorkshopApi.Playback.getCurrentMediaItem] 提供数据库中保存的元数据
+     * 歌词加载回调提供播放项的 ID 和原有五个字段
+     * 未提供的新增字段使用空字符串、0 或 false，不代表已经查询过曲库或检查过文件
      *
      * @property title 标题
      * @property artist 艺术家，多艺术家以“/”分割（含特殊情况）
      * @property album 专辑
      * @property albumArtist 专辑艺术家，多专辑艺术家以“/”分割（含特殊情况）
      * @property path 文件路径，平台风格，如：`C:\Music\Song.mp3`
+     * @property id 歌曲 ID，未提供时为空，不承诺曲库删除重建或跨设备后保持不变
+     * @property year 年份
+     * @property genre 曲风原始文本
+     * @property number 光盘号 × 1000 + 曲目号
+     * @property duration 时长，单位毫秒
+     * @property isFavorite 是否喜欢
+     * @property readable 数据库中保存的可读状态，查询时不检查文件
      */
     data class MediaItem(
         val title: String,
         val artist: String,
         val album: String,
         val albumArtist: String,
-        val path: String
-    )
+        val path: String,
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val id: String = "",
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val year: Int = 0,
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val genre: String = "",
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val number: Int = 0,
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val duration: Long = 0L,
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val isFavorite: Boolean = false,
+        @SinceApi("1.19.0", "0.1.0-dev21")
+        val readable: Boolean = false
+    ) {
+        /**
+         * 保留旧五参数构造器的 JVM 签名
+         */
+        constructor(
+            title: String,
+            artist: String,
+            album: String,
+            albumArtist: String,
+            path: String
+        ) : this(title, artist, album, albumArtist, path, "", 0, "", 0, 0L, false, false)
+
+        /**
+         * 复制原有字段并保留新增元数据，兼容旧 copy 及 copy$default 的 JVM 签名
+         *
+         * 修改新增字段时使用完整参数的 copy 重载
+         */
+        fun copy(
+            title: String = this.title,
+            artist: String = this.artist,
+            album: String = this.album,
+            albumArtist: String = this.albumArtist,
+            path: String = this.path
+        ): MediaItem = MediaItem(
+            title = title,
+            artist = artist,
+            album = album,
+            albumArtist = albumArtist,
+            path = path,
+            id = id,
+            year = year,
+            genre = genre,
+            number = number,
+            duration = duration,
+            isFavorite = isFavorite,
+            readable = readable
+        )
+    }
 
     /**
      * 歌词行
