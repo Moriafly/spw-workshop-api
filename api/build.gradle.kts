@@ -7,7 +7,7 @@ plugins {
 }
 
 group = "com.github.Moriafly"
-version = "0.1.0-dev21"
+version = "0.1.0-dev22"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_21
@@ -27,6 +27,7 @@ dependencies {
     api(libs.compose.ui)
     api(libs.compose.foundation)
     api(libs.salt.ui)
+    api(libs.asm)
     testImplementation(libs.junit)
 }
 
