@@ -76,4 +76,4 @@ class PlaybackControllerTransformer : HostClassTransformer {
 - suspend 函数编译为状态机，不适合作为转换目标
 - 同一类被多个插件转换时按注册顺序链式应用，后注册的收到前一个转换后的字节
 - Release 构建中宿主类名被 ProGuard 混淆，转换目标以宿主保留的稳定类为准；目标类找不到时转换不会生效
-- Compose 界面：顶层 `@Composable` 函数编译为文件外观类（如 `ModManagementScreenKt`）中的静态方法，织入方式与普通方法相同；注意重组会重复进入方法。向界面增删结构性 UI 不在本机制适用范围
+- Compose 界面：顶层 `@Composable` 函数编译为文件外观类（如 `ModManagementScreenKt`）中的静态方法；注意重组会重复进入方法。注入插件组件时使用 [Compose UI Hook 桥接](ui-hooks.md)，并保留原有组合分组与跳过逻辑

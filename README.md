@@ -22,8 +22,8 @@ SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库�
 
 ```toml
 [versions]
-# 0.1.0-dev21 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev21"
+# 0.1.0-dev22 替换为最新的（或需要的）版本
+spw-workshop-api = "0.1.0-dev22"
 
 [libraries]
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
@@ -63,7 +63,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '2.3.0'
     id 'org.jetbrains.kotlin.kapt' version '2.3.0'
-    id 'com.xuncorp.spw.workshop' version '0.1.0-dev21'
+    id 'com.xuncorp.spw.workshop' version '0.1.0-dev22'
 }
 
 dependencies {
@@ -91,7 +91,7 @@ plugins {
     id("java-library")
     kotlin("jvm") version "2.3.0"
     kotlin("kapt") version "2.3.0"
-    id("com.xuncorp.spw.workshop") version "0.1.0-dev21"
+    id("com.xuncorp.spw.workshop") version "0.1.0-dev22"
 }
 
 java {
@@ -143,6 +143,12 @@ class ClassicalPlugin : SpwPlugin() {
 | `PluginPermissions` | `Plugin-Permissions` | 可选，权限枚举列表，默认空列表；快捷键需声明 `KEY_BINDINGS`，曲库查询需声明 `LIBRARY_READ`，详见 [插件权限](docs/permissions.md) |
 
 必填字段未设置或为空白时，构建会提示对应的 `spmod` 字段。未设置的可选字符串不会写入 Manifest。
+
+## Compose UI Hook
+
+API `0.1.0-dev22` 新增 `UiHookExtensionPoint` 与 `UiHookTransformers`，插件可自行选择调用位置插入或替换 Compose 组件，也可向普通菜单 DSL 追加 item，无需手写 ASM 注入；沿用 `CLASS_TRANSFORM` 声明与用户授权
+
+组件、ASM 调用签名、生命周期与限制见 [Compose UI Hook](docs/ui-hooks.md)
 
 ## 混淆配置
 

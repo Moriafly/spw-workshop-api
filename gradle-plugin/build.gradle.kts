@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.github.Moriafly.spw-workshop-api"
-version = "0.1.0-dev21"
+version = "0.1.0-dev22"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

@@ -19,8 +19,10 @@
 
 package com.xuncorp.spw.workshop.api
 
+import androidx.compose.runtime.Composable
 import com.xuncorp.spw.workshop.api.PlaybackExtensionPoint.MediaItem
 import com.xuncorp.spw.workshop.api.config.ConfigManager
+import com.xuncorp.spw.workshop.api.ui.UiHookContext
 import java.util.concurrent.CompletionStage
 
 /**
@@ -207,6 +209,60 @@ interface WorkshopApi {
      * 界面相关
      */
     interface Ui {
+        /**
+         * 在当前组合位置绘制插件声明的 UI Hook 内容
+         *
+         * 供 ASM 注入的宿主代码调用，插件通过 UiHookExtensionPoint 提供内容
+         * 仅已启动且获授 CLASS_TRANSFORM 的插件可被绘制；不存在或已移除的 Hook 不绘制内容
+         * 停用或卸载后已有内容在后续组合中移除，其 Compose Effect 随之销毁
+         *
+         * 必须在有效的 Compose 组合上下文内调用，不能从普通回调或后台线程直接调用
+         * 插件内容的异常按普通 Composable 异常传播，不承诺隔离插件对宿主的任意副作用
+         * 旧宿主实现使用此默认方法时不绘制内容
+         *
+         * @param pluginId 提供内容的插件 ID
+         * @param hookId 插件内唯一的 Hook ID
+         */
+        @SinceApi("1.19.0", "0.1.0-dev22")
+        @Composable
+        fun renderHook(pluginId: String, hookId: String): Unit {}
+
+        /**
+         * 在有效组合位置绘制组件，并传递被替换调用的业务参数
+         *
+         * 参数与上下文的含义见 [UiHookContext]，权限与生命周期同 [renderHook]
+         */
+        @SinceApi("1.19.0", "0.1.0-dev22")
+        @Composable
+        fun renderHook(
+            pluginId: String,
+            hookId: String,
+            context: UiHookContext
+        ): Unit = renderHook(pluginId, hookId)
+
+        /**
+         * 当前是否存在已启动且获授 CLASS_TRANSFORM 的 Hook
+         *
+         * 供替换转换器决定绘制插件内容还是执行原调用，旧宿主实现返回 false
+         */
+        @SinceApi("1.19.0", "0.1.0-dev22")
+        fun hasHook(pluginId: String, hookId: String): Boolean = false
+
+        /**
+         * 包装普通内容构建器，先执行原内容，再调用插件的 buildContent
+         *
+         * Hook 不存在或未授权时返回原构建器，执行包装后的构建器时再次核实注册身份
+         * 参数为被调用方法 Composer 之前的业务参数，执行时将原接收者放入 contentScope
+         * 此入口不创建组合、不主动触发重组，异常与原构建器异常一样传播
+         */
+        @SinceApi("1.19.0", "0.1.0-dev22")
+        fun appendHookContent(
+            pluginId: String,
+            hookId: String,
+            content: (Any?) -> Unit,
+            arguments: Array<out Any?>
+        ): (Any?) -> Unit = content
+
         /**
          * 发送一个 [type] 类型文本吐司
          */
