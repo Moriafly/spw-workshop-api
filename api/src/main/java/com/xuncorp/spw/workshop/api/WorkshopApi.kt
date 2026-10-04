@@ -21,7 +21,7 @@ package com.xuncorp.spw.workshop.api
 
 import com.xuncorp.spw.workshop.api.PlaybackExtensionPoint.MediaItem
 import com.xuncorp.spw.workshop.api.config.ConfigManager
-import com.xuncorp.spw.workshop.api.hook.HookManager
+import com.xuncorp.spw.workshop.api.hook.HookRegistrar
 import java.util.concurrent.CompletionStage
 
 /**
@@ -34,8 +34,7 @@ interface WorkshopApi {
 
     @UnstableSpwWorkshopApi
     @SinceApi("1.19.0", "0.1.0-dev22")
-    val hooks: HookManager
-        get() = throw UnsupportedOperationException("This host does not support direct hooks")
+    val hooks: HookRegistrar
 
     val manager: Manager
 
@@ -241,7 +240,7 @@ interface WorkshopApi {
 
         @UnstableSpwWorkshopApi
         @SinceApi("1.19.0", "0.1.0-dev22")
-        val hooks: HookManager
+        val hooks: HookRegistrar
             @JvmStatic
             @JvmName("hooks")
             get() = instance.hooks

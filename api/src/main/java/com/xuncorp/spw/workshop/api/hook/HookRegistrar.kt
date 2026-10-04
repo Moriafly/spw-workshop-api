@@ -34,7 +34,7 @@ import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
  */
 @UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
-abstract class HookManager {
+abstract class HookRegistrar {
     /**
      * 参数类型为 null 时按名称匹配唯一方法，空列表表示无参数
      * 类型使用 JVM 名称，例如 long、java.lang.String，不需要 descriptor
