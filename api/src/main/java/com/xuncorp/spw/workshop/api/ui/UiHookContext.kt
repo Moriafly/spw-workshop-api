@@ -25,8 +25,6 @@ import java.util.Collections
  *
  * [arguments] 按被调用方法的 JVM 参数顺序排列，仅包含 Composer 之前的业务参数
  * 不包含实例方法接收者、Composer、changed 与 default mask；基本类型自动装箱
- * replaceCall 仅桥接显式参数；appendContent 的其他默认参数尚未由宿主求值，
- * 对应元素可能为 null 或基本类型零值，插件应只读取已确认显式传入的业务参数
  * 列表是不可修改的浅拷贝，其中的对象、回调与作用域仍属于当前宿主调用
  * 不应将上下文保存到组件或内容构建器的生命周期之外
  *

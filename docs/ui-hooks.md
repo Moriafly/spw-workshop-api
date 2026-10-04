@@ -81,26 +81,9 @@ UiHookTransformers.appendContent(
 
 `contentArgumentIndex` 是被调用方法 JVM 参数的索引，从 0 开始，不含实例接收者；这里的参数顺序为 `onDismissRequest`、`header`、`content`、Composer、changed、default mask
 
-默认表达式由宿主函数求值，辅助方法不会在调用点复制默认值逻辑：
-
-- `replaceCall` 检测到任一非零 default mask 时执行原调用；布局可确定且所有参数均显式传入（default mask 全为零）时仍可替换
-- `appendContent` 在内容参数为 `null` 时执行原调用，包括省略默认内容参数的情况。显式传入内容时仍可追加，即使其他参数使用默认值；这些其他参数在 `context.arguments` 中仍是 JVM 占位值，插件应只读取已确认显式传入的参数
-
-这也保留了可空内容参数的原有语义，以及无 Hook 或旧桥接实现下的正常回退。需要 Hook 默认内容时，应选择已显式传入内容的调用点
-
 `buildContent` 是普通构建回调，不能直接调用 Composable，应把组件作为 DSL 的 `content` 参数传入。`appendContent` 仅支持普通 `Function1` 构建器，不支持 `@Composable` lambda；需按目标宿主版本核实具体作用域和参数类型
 
 原构建器先执行，随后追加插件内容；回调与原构建器在同一线程运行，可能因宿主重组再次执行。不要在其中创建长期资源
-
-## 编译器 ABI 边界
-
-`replaceCall` 的默认参数解析以 **Kotlin / Compose compiler 2.3.0** 和 **Compose Multiplatform 1.11.0-alpha01** 为验证基线。Composer 之后必须是该 ABI 的整数 changed/default masks；明确不支持的布局会导致转换失败，不应用部分修改。changed mask 每个容纳 10 个参数（包括接收者），default mask 每个容纳 31 个值参数，不包含实例接收者
-
-`@JvmStatic` 可能保留原实例接收者的 changed 槽位。静态调用在 10 个参数的倍数边界需要声明信息；转换器只使用本次输入字节码中的声明，无法确定时保留原调用。因此跨类调用在这一边界保守回退，即使所有参数均显式传入。转换器不为此读取 `callOwner` 的类资源
-
-`appendContent` 仅要求唯一 Composer 参数和 Composer 之前指定的 `Function1` 内容参数，不校验 Composer 之后的 changed/default mask 布局。`afterCall` 也不解析默认参数
-
-宿主升级 Kotlin / Compose compiler 时，应先检查这里的参数布局及默认参数回归测试，再确认 Hook 兼容性
 
 ## 上下文和响应式状态
 
