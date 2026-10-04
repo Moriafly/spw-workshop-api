@@ -43,7 +43,7 @@ spmod { config ->
 
 声明 `CLASS_TRANSFORM` 并获授权后，插件可通过 `WorkshopApi.hooks` 注册方法与 UI Hook，停用、卸载或撤销权限后停止新回调并恢复原行为。这是最高危权限，仅应授予完全信任的插件；权限清单标识沿用 `class-transform`
 
-Kotlin DSL、Java 回调与约束见 [直接 Hook API](ui-hooks.md)，插件无需提供字节码转换器
+Kotlin DSL、Java 回调与约束见 [直接 Hook API](hooks.md)，插件无需提供字节码转换器
 
 ## 查询与失败处理
 
