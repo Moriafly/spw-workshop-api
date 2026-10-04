@@ -98,7 +98,9 @@ public void start() {
 Kotlin（运行时代码导入 `com.xuncorp.spw.workshop.api.PluginPermission`）：
 
 ```kotlin
-if (WorkshopApi.manager.isPermissionGranted(PluginPermission.LIBRARY_READ)) {
+if (WorkshopApi.manager
+        .isPermissionGranted(PluginPermission.LIBRARY_READ)
+) {
     WorkshopApi.library.getTracks(afterId = null, limit = 20)
         .whenComplete { tracks, failure ->
             val cause = (failure as? java.util.concurrent.CompletionException)?.cause ?: failure
@@ -114,18 +116,22 @@ if (WorkshopApi.manager.isPermissionGranted(PluginPermission.LIBRARY_READ)) {
 Java：
 
 ```java
-if (WorkshopApi.manager().isPermissionGranted(PluginPermission.LIBRARY_READ)) {
-    WorkshopApi.library().getTracks(null, 20).whenComplete((tracks, failure) -> {
-        Throwable cause = failure instanceof java.util.concurrent.CompletionException
-                ? failure.getCause() : failure;
-        if (cause == null) {
-            tracks.forEach(track -> System.out.println(track.getTitle()));
-        } else if (cause instanceof PluginPermissionDeniedException) {
-            System.out.println("曲库读取权限不可用");
-        } else {
-            cause.printStackTrace();
-        }
-    });
+if (WorkshopApi.manager()
+        .isPermissionGranted(PluginPermission.LIBRARY_READ)
+) {
+    WorkshopApi.library()
+        .getTracks(null, 20)
+        .whenComplete((tracks, failure) -> {
+            Throwable cause = failure instanceof java.util.concurrent.CompletionException
+                   ? failure.getCause() : failure;
+            if (cause == null) {
+               tracks.forEach(track -> System.out.println(track.getTitle()));
+            } else if (cause instanceof PluginPermissionDeniedException) {
+                System.out.println("曲库读取权限不可用");
+            } else {
+                cause.printStackTrace();
+            }
+        });
 }
 ```
 

@@ -1,11 +1,10 @@
 [versions]
-kotlin = "2.3.0"
+kotlin = "2.4.20"
 junit = "4.13.2"
 pf4j = "3.12.0"
 compose-multiplatform = "1.11.0-alpha01"
 salt-ui = "2.9.0-alpha02"
 spw-workshop-api = "0.1.0-dev22"
-asm = "9.9"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -14,7 +13,6 @@ compose-ui = { group = "org.jetbrains.compose.ui", name = "ui", version.ref = "c
 compose-foundation = { group = "org.jetbrains.compose.foundation", name = "foundation", version.ref = "compose-multiplatform" }
 salt-ui = { group = "io.github.moriafly", name = "salt-ui", version.ref = "salt-ui" }
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
-asm = { group = "org.ow2.asm", name = "asm", version.ref = "asm" }
 
 [plugins]
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
