@@ -144,11 +144,11 @@ class ClassicalPlugin : SpwPlugin() {
 
 必填字段未设置或为空白时，构建会提示对应的 `spmod` 字段。未设置的可选字符串不会写入 Manifest。
 
-## Compose UI Hook
+## 直接 Hook API
 
-API `0.1.0-dev22` 新增 `UiHookExtensionPoint` 与 `UiHookTransformers`，插件可自行选择调用位置插入或替换 Compose 组件，也可向普通菜单 DSL 追加 item，无需手写 ASM 注入；沿用 `CLASS_TRANSFORM` 声明与用户授权
+API `0.1.0-dev22` 提供 `WorkshopApi.hooks` / Java `WorkshopApi.hooks()`，在插件 `start()` 中直接注册 `hookMethod`、`replaceComposable`、`afterComposable` 或 `appendContent`；宿主管理字节码、插件归属与生命周期，沿用 `CLASS_TRANSFORM` 声明与用户授权
 
-组件、ASM 调用签名、生命周期与限制见 [Compose UI Hook](docs/ui-hooks.md)
+Kotlin DSL、Java 回调、UI 定位、生命周期与限制见 [直接 Hook API](docs/ui-hooks.md)
 
 ## 混淆配置
 

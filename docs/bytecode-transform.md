@@ -67,7 +67,7 @@ class PlaybackControllerTransformer : HostClassTransformer {
 
 - **ByteBuddy `@Advice`（推荐）**：如上，真实代码、编译期检查、活跃维护
 - **Javassist**：以源码字符串改写（`insertBefore` 等），轻量但无编译期检查，对新版本 class 文件的支持存在不确定性
-- **裸 ASM**：宿主经 API 传递，`compileOnly` 依赖本库即可使用，无需打包进 `lib/`；适合极简修改。方法入口注入等栈中性修改用 `ClassWriter(reader, ClassWriter.COMPUTE_MAXS)` 配合 `ClassReader.EXPAND_FRAMES`；若必须使用 `COMPUTE_FRAMES`，需覆写 `ClassWriter.getCommonSuperClass` 改用应用类加载器解析宿主类
+- **裸 ASM**：API 不传递 ASM 依赖，需要显式声明 `compileOnly("org.ow2.asm:asm:9.9")`，运行时由支持直接 Hook 的宿主提供；自行打包私有 ASM 时用 `implementation`。方法入口注入等栈中性修改用 `ClassWriter(reader, ClassWriter.COMPUTE_MAXS)` 配合 `ClassReader.EXPAND_FRAMES`；若必须使用 `COMPUTE_FRAMES`，需覆写 `ClassWriter.getCommonSuperClass` 改用应用类加载器解析宿主类
 
 ## 约束
 
@@ -76,4 +76,4 @@ class PlaybackControllerTransformer : HostClassTransformer {
 - suspend 函数编译为状态机，不适合作为转换目标
 - 同一类被多个插件转换时按注册顺序链式应用，后注册的收到前一个转换后的字节
 - Release 构建中宿主类名被 ProGuard 混淆，转换目标以宿主保留的稳定类为准；目标类找不到时转换不会生效
-- Compose 界面：顶层 `@Composable` 函数编译为文件外观类（如 `ModManagementScreenKt`）中的静态方法；注意重组会重复进入方法。注入插件组件时使用 [Compose UI Hook 桥接](ui-hooks.md)，并保留原有组合分组与跳过逻辑
+- Compose 界面：顶层 `@Composable` 函数编译为文件外观类（如 `ModManagementScreenKt`）中的静态方法；注意重组会重复进入方法。直接修改方法或注入插件组件时优先使用 [直接 Hook API](ui-hooks.md)，由宿主管理组合分组与执行机制

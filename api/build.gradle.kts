@@ -28,7 +28,6 @@ dependencies {
     api(libs.compose.ui)
     api(libs.compose.foundation)
     api(libs.salt.ui)
-    api(libs.asm)
     testImplementation(libs.junit)
 }
 
