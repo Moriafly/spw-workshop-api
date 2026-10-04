@@ -1,6 +1,6 @@
 /*
  * SPW Workshop API
- * Copyright (C) 2025 Moriafly
+ * Copyright (C) 2026 Zeshi Palace
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.xuncorp.spw.workshop.api.hook
 
 import androidx.compose.runtime.Composable
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
 /**
  * 在宿主有效组合位置绘制的插件内容
@@ -27,6 +28,7 @@ import com.xuncorp.spw.workshop.api.SinceApi
  * 内容异常按普通 Composable 异常传播
  * Java 可注册由 Kotlin Compose compiler 编译的实现，不需要手动传递 Composer
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
 abstract class ComposableHook {
     @Composable

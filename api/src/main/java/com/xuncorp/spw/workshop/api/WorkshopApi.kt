@@ -32,6 +32,7 @@ interface WorkshopApi {
 
     val ui: Ui
 
+    @UnstableSpwWorkshopApi
     @SinceApi("1.19.0", "0.1.0-dev22")
     val hooks: HookManager
         get() = throw UnsupportedOperationException("This host does not support direct hooks")
@@ -238,6 +239,7 @@ interface WorkshopApi {
             @JvmName("ui")
             get() = instance.ui
 
+        @UnstableSpwWorkshopApi
         @SinceApi("1.19.0", "0.1.0-dev22")
         val hooks: HookManager
             @JvmStatic

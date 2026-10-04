@@ -1,6 +1,6 @@
 /*
  * SPW Workshop API
- * Copyright (C) 2025 Moriafly
+ * Copyright (C) 2026 Zeshi Palace
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package com.xuncorp.spw.workshop.api.hook
 
 import androidx.compose.runtime.Composable
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
 /**
  * 插件直接注册普通方法与 UI Hook 的入口
@@ -31,6 +32,7 @@ import com.xuncorp.spw.workshop.api.SinceApi
  * 首版不支持构造函数、native/abstract、suspend 状态机及已内联调用
  * 宿主内部目标名称随版本与混淆变化，插件应明确支持的宿主版本
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
 abstract class HookManager {
     /**
@@ -99,7 +101,9 @@ abstract class HookManager {
         priority,
         object : ComposableHook() {
             @Composable
-            override fun Content(call: UiHookCall) { content(call) }
+            override fun Content(call: UiHookCall) {
+                content(call)
+            }
         }
     )
 
@@ -137,7 +141,9 @@ abstract class HookManager {
         priority,
         object : ComposableHook() {
             @Composable
-            override fun Content(call: UiHookCall) { content(call) }
+            override fun Content(call: UiHookCall) {
+                content(call)
+            }
         }
     )
 
@@ -163,7 +169,16 @@ abstract class HookManager {
         parameter: String,
         scopeType: Class<S>,
         content: ContentHook<S>
-    ): HookHandle = appendContent(className, methodName, inClass, parameter, scopeType, null, 50, content)
+    ): HookHandle = appendContent(
+        className,
+        methodName,
+        inClass,
+        parameter,
+        scopeType,
+        null,
+        50,
+        content
+    )
 
     inline fun <reified S : Any> appendContent(
         className: String,

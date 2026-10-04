@@ -1,6 +1,6 @@
 /*
  * SPW Workshop API
- * Copyright (C) 2025 Moriafly
+ * Copyright (C) 2026 Zeshi Palace
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
 /**
  * 普通 JVM 方法的前置与后置回调
@@ -27,11 +28,16 @@ import com.xuncorp.spw.workshop.api.SinceApi
  * before/after 抛出异常时宿主记录错误并恢复该回调之前的参数数组和结果状态
  * 对象内部修改及其他副作用无法撤销
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
-abstract class MethodHook @JvmOverloads constructor(val priority: Int = 50) {
-    @Throws(Throwable::class)
-    open fun before(call: MethodHookParam): Unit {}
+abstract class MethodHook
+    @JvmOverloads
+    constructor(
+        val priority: Int = 50
+    ) {
+        @Throws(Throwable::class)
+        open fun before(call: MethodHookParam) {}
 
-    @Throws(Throwable::class)
-    open fun after(call: MethodHookParam): Unit {}
-}
+        @Throws(Throwable::class)
+        open fun after(call: MethodHookParam) {}
+    }

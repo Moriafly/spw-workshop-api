@@ -1,6 +1,6 @@
 /*
  * SPW Workshop API
- * Copyright (C) 2025 Moriafly
+ * Copyright (C) 2026 Zeshi Palace
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 import java.lang.reflect.Method
 
 /**
@@ -29,6 +30,7 @@ import java.lang.reflect.Method
  * setResult(null) 也表示明确返回，void 方法接受 null 或 Kotlin Unit
  * 不能将上下文保存或交给其他线程，结果和参数必须符合目标方法的 JVM 类型
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
 abstract class MethodHookParam {
     abstract val method: Method
@@ -39,6 +41,7 @@ abstract class MethodHookParam {
     abstract val isOriginalSkipped: Boolean
 
     abstract fun setResult(result: Any?): Unit
+
     abstract fun setThrowable(throwable: Throwable): Unit
 
     /**

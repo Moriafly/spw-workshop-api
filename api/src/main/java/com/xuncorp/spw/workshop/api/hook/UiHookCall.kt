@@ -1,6 +1,6 @@
 /*
  * SPW Workshop API
- * Copyright (C) 2025 Moriafly
+ * Copyright (C) 2026 Zeshi Palace
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
 /**
  * UI 调用位置的业务参数，仅在当前组件或构建器生命周期内有效
@@ -25,12 +26,14 @@ import com.xuncorp.spw.workshop.api.SinceApi
  * arguments 是不可修改的浅拷贝，不包含实例接收者、Composer、changed 和 default mask
  * 基本类型自动装箱，具名访问依赖目标方法的源码参数信息
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
 abstract class UiHookCall {
     abstract val thisObject: Any?
     abstract val arguments: List<Any?>
 
     fun getArgument(index: Int): Any? = arguments[index]
+
     abstract fun getArgument(name: String): Any?
 
     fun <T> getArgument(name: String, type: Class<T>): T? {
@@ -52,5 +55,6 @@ abstract class UiHookCall {
     }
 
     inline fun <reified T> argument(name: String): T = getArgument(name) as T
+
     inline fun <reified T> argument(index: Int): T = getArgument(index) as T
 }

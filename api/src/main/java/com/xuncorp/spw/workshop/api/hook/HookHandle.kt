@@ -1,6 +1,6 @@
 /*
  * SPW Workshop API
- * Copyright (C) 2025 Moriafly
+ * Copyright (C) 2026 Zeshi Palace
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,15 +18,17 @@
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
 /**
  * 一次 Hook 注册的清理句柄
  *
  * unhook 与 close 可重复调用，插件停用或卸载时宿主自动清理注册
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
 interface HookHandle : AutoCloseable {
-    fun unhook(): Unit
+    fun unhook()
 
     override fun close(): Unit = unhook()
 }

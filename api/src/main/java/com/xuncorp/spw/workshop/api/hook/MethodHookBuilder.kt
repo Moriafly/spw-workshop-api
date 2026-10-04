@@ -18,17 +18,21 @@
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
+import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
 
 /**
  * Kotlin 方法 Hook DSL，三个回调块各声明一次
  */
+@UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
-class MethodHookBuilder internal constructor(private val priority: Int) {
+class MethodHookBuilder internal constructor(
+    private val priority: Int
+) {
     private var before: ((MethodHookParam) -> Unit)? = null
     private var replacement: ((MethodHookParam) -> Any?)? = null
     private var after: ((MethodHookParam) -> Unit)? = null
 
-    fun before(callback: (MethodHookParam) -> Unit): Unit {
+    fun before(callback: (MethodHookParam) -> Unit) {
         check(before == null) { "before is already configured" }
         before = callback
     }
@@ -38,12 +42,12 @@ class MethodHookBuilder internal constructor(private val priority: Int) {
      *
      * before 已设置结果或异常时不执行此块
      */
-    fun replace(callback: (MethodHookParam) -> Any?): Unit {
+    fun replace(callback: (MethodHookParam) -> Any?) {
         check(replacement == null) { "replace is already configured" }
         replacement = callback
     }
 
-    fun after(callback: (MethodHookParam) -> Unit): Unit {
+    fun after(callback: (MethodHookParam) -> Unit) {
         check(after == null) { "after is already configured" }
         after = callback
     }
