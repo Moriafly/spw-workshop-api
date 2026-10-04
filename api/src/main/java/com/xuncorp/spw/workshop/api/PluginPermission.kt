@@ -30,9 +30,9 @@ enum class PluginPermission(
     LIBRARY_WRITE("library-write"),
 
     /**
-     * 在运行时转换宿主类的字节码（retransform），改变应用行为
+     * 注册宿主方法与 UI Hook，改变应用行为
      *
-     * 转换器可以改写宿主已加载类的方法体
+     * 沿用 class-transform 清单标识，宿主内部负责安装与撤销 Hook
      */
     @SinceApi("1.19.0", "0.1.0-dev22")
     CLASS_TRANSFORM("class-transform")

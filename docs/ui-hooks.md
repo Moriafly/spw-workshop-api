@@ -197,4 +197,6 @@ Compose、Kotlin、协程、Workshop API 与宿主 UI 类型使用 compileOnly�
 
 首版支持宿主加载器可见的普通 JVM 方法与上述 UI 调用，不支持构造函数、native/abstract、suspend 状态机及已内联调用。目标名称依赖宿主版本，不承诺适配任意混淆或宿主升级
 
-已发布 API 保持兼容，旧宿主的 hooks 默认实现抛出 UnsupportedOperationException。未发布 UI 草案已重整，UiHookExtensionPoint、UiHookContext、UiHookTransformers 和 WorkshopApi.Ui 的绘制桥接不保留别名。高级字节码入口仍见 [字节码转换](bytecode-transform.md)
+其他已发布 API 保持兼容，旧宿主的 hooks 默认实现抛出 UnsupportedOperationException。未发布的 UI 草案与低层字节码入口已经移除：UiHookExtensionPoint、UiHookContext、UiHookTransformers、BytecodeTransformExtensionPoint、HostClassTransformer 和 WorkshopApi.Ui 的绘制桥接均不保留别名，插件统一在 start 中通过 hooks 注册
+
+权限沿用 CLASS_TRANSFORM / class-transform，以保留已有声明与授权；这是 Hook 的权限标识，不再提供插件字节码转换器入口。使用旧开发草案的插件需要迁移到本文的 Hook 用法
