@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("unused")
+
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
@@ -40,9 +42,9 @@ abstract class MethodHookParam {
     abstract val throwable: Throwable?
     abstract val isOriginalSkipped: Boolean
 
-    abstract fun setResult(result: Any?): Unit
+    abstract fun setResult(result: Any?)
 
-    abstract fun setThrowable(throwable: Throwable): Unit
+    abstract fun setThrowable(throwable: Throwable)
 
     /**
      * 使用当前参数调用原方法，绕过当前方法此次入口的全部 Hook

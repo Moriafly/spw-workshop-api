@@ -146,7 +146,7 @@ class ClassicalPlugin : SpwPlugin() {
 
 ## 直接 Hook API
 
-API `0.1.0-dev22` 提供 `WorkshopApi.hooks` / Java `WorkshopApi.hooks()`，在插件 `start()` 中直接注册 `hookMethod`、`replaceComposable`、`afterComposable` 或 `appendContent`；宿主管理字节码、插件归属与生命周期，沿用 `CLASS_TRANSFORM` 声明与用户授权
+API `0.1.0-dev22` 提供 `WorkshopApi.hookRegistrar` / Java `WorkshopApi.hookRegistrar()`，在插件 `start()` 中直接注册 `hookMethod`、`replaceComposable`、`afterComposable` 或 `appendContent`；宿主管理字节码、插件归属与生命周期，沿用 `CLASS_TRANSFORM` 声明与用户授权
 
 Kotlin DSL、Java 回调、UI 定位、生命周期与限制见 [直接 Hook API](docs/hooks.md)
 

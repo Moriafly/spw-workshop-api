@@ -34,7 +34,7 @@ interface WorkshopApi {
 
     @UnstableSpwWorkshopApi
     @SinceApi("1.19.0", "0.1.0-dev22")
-    val hooks: HookRegistrar
+    val hookRegistrar: HookRegistrar
 
     val manager: Manager
 
@@ -240,10 +240,10 @@ interface WorkshopApi {
 
         @UnstableSpwWorkshopApi
         @SinceApi("1.19.0", "0.1.0-dev22")
-        val hooks: HookRegistrar
+        val hookRegistrar: HookRegistrar
             @JvmStatic
-            @JvmName("hooks")
-            get() = instance.hooks
+            @JvmName("hookRegistrar")
+            get() = instance.hookRegistrar
 
         val playback: Playback
             @JvmStatic

@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("unused")
+
 package com.xuncorp.spw.workshop.api.hook
 
 import androidx.compose.runtime.Composable
@@ -195,7 +197,6 @@ abstract class HookRegistrar {
         parameter,
         S::class.java,
         parameterTypes,
-        priority,
-        ContentHook { scope, call -> content(scope, call) }
-    )
+        priority
+    ) { scope, call -> content(scope, call) }
 }

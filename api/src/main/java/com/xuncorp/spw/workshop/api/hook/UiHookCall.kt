@@ -15,6 +15,8 @@
  * limitations under the License.
  */
 
+@file:Suppress("unused")
+
 package com.xuncorp.spw.workshop.api.hook
 
 import com.xuncorp.spw.workshop.api.SinceApi
@@ -36,6 +38,7 @@ abstract class UiHookCall {
 
     abstract fun getArgument(name: String): Any?
 
+    @Suppress("RemoveRedundantQualifierName")
     fun <T> getArgument(name: String, type: Class<T>): T? {
         val value = getArgument(name) ?: return null
         val boxed = when (type) {

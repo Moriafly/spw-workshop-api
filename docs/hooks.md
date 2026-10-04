@@ -1,6 +1,6 @@
 # Hook API 使用指南
 
-通过 `WorkshopApi.hooks` 注册普通方法 Hook 或修改 UI，Java 对应 `WorkshopApi.hooks()`。Hook API 从 `0.1.0-dev22` 起提供，目前标记为 `UnstableSpwWorkshopApi`
+通过 `WorkshopApi.hookRegistrar` 注册普通方法 Hook 或修改 UI，Java 对应 `WorkshopApi.hookRegistrar()`。Hook API 从 `0.1.0-dev22` 起提供，目前标记为 `UnstableSpwWorkshopApi`
 
 ## 开始使用
 
@@ -28,7 +28,7 @@ spmod {
 
 ```kotlin
 override fun start() {
-    WorkshopApi.hooks.hookMethod(
+    WorkshopApi.hookRegistrar.hookMethod(
         className = "com.myapp.Calculator",
         methodName = "calculate",
         parameterTypes = listOf("int")
@@ -53,7 +53,7 @@ Java 通过 `MethodHook` 声明 before 和 after，在 before 中调用 `setResu
 ```java
 @Override
 public void start() {
-    WorkshopApi.hooks().hookMethod(
+    WorkshopApi.hookRegistrar().hookMethod(
         "com.myapp.Calculator",
         "calculate",
         List.of("int"),
@@ -116,7 +116,7 @@ UI Hook 要求 `inClass` 中存在唯一匹配的目标调用。目标名称和�
 `replaceComposable` 替换所选组件，`afterComposable` 在所选组件正常返回后追加内容
 
 ```kotlin
-WorkshopApi.hooks.replaceComposable(
+WorkshopApi.hookRegistrar.replaceComposable(
     className = "com.myapp.ui.PanelKt",
     methodName = "Panel",
     inClass = "com.myapp.ui.ScreenKt"
@@ -128,7 +128,7 @@ WorkshopApi.hooks.replaceComposable(
 这里的 `PluginPanel` 是插件自行编写的 `@Composable` 函数。需要在组件之后执行副作用时，使用 Effect，避免重组时重复执行：
 
 ```kotlin
-WorkshopApi.hooks.afterComposable(
+WorkshopApi.hookRegistrar.afterComposable(
     className = "com.myapp.ui.PanelKt",
     methodName = "Panel",
     inClass = "com.myapp.ui.ScreenKt"
@@ -151,7 +151,7 @@ class PanelHook : ComposableHook() {
 ```
 
 ```java
-WorkshopApi.hooks().replaceComposable(
+WorkshopApi.hookRegistrar().replaceComposable(
     "com.myapp.ui.PanelKt",
     "Panel",
     "com.myapp.ui.ScreenKt",
@@ -170,7 +170,7 @@ Composable 内容使用启用 Compose compiler 的 Kotlin 编写。UI Hook 的�
 假设目标菜单提供 `MenuScope` 作用域，插件通过自行编写的 `PluginMenuItems.append()` 构建菜单项：
 
 ```kotlin
-WorkshopApi.hooks.appendContent<MenuScope>(
+WorkshopApi.hookRegistrar.appendContent<MenuScope>(
     className = "com.myapp.ui.MenuKt",
     methodName = "Menu",
     inClass = "com.myapp.ui.ScreenKt",
@@ -183,7 +183,7 @@ WorkshopApi.hooks.appendContent<MenuScope>(
 Java 显式传入作用域类型：
 
 ```java
-WorkshopApi.hooks().appendContent(
+WorkshopApi.hookRegistrar().appendContent(
     "com.myapp.ui.MenuKt",
     "Menu",
     "com.myapp.ui.ScreenKt",
@@ -224,7 +224,7 @@ Object firstArgument = call.getArgument(0);
 注册方法返回 `HookHandle`，需要提前取消时调用 `unhook()` 或 `close()`，重复调用是安全的：
 
 ```kotlin
-val handle = WorkshopApi.hooks.hookMethod(
+val handle = WorkshopApi.hookRegistrar.hookMethod(
     className = "com.myapp.Calculator",
     methodName = "calculate"
 ) {
