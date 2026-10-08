@@ -4,7 +4,7 @@ pluginManagement {
         gradlePluginPortal()
     }
     plugins {
-        id("org.jetbrains.kotlin.kapt") version "2.3.0"
+        id("org.jetbrains.kotlin.kapt") version "2.4.20"
     }
     resolutionStrategy {
         eachPlugin {

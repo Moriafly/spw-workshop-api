@@ -29,6 +29,8 @@ spw-workshop-api = "0.1.0-dev22"
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
 ```
 
+API `0.1.0-dev22` 起使用 Kotlin 2.4.20 与 Java 25 编译，插件项目需要使用 Kotlin 2.4.20 或更高版本，宿主与插件运行在 JDK 25 或更高版本
+
 在 `settings.gradle.kts` 中配置 Gradle 插件和库依赖仓库：
 
 ```kotlin
@@ -61,8 +63,8 @@ dependencyResolutionManagement {
 ```gradle
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '2.3.0'
-    id 'org.jetbrains.kotlin.kapt' version '2.3.0'
+    id 'org.jetbrains.kotlin.jvm' version '2.4.20'
+    id 'org.jetbrains.kotlin.kapt' version '2.4.20'
     id 'com.xuncorp.spw.workshop' version '0.1.0-dev22'
 }
 
@@ -89,8 +91,8 @@ spmod { config ->
 ```kotlin
 plugins {
     id("java-library")
-    kotlin("jvm") version "2.3.0"
-    kotlin("kapt") version "2.3.0"
+    kotlin("jvm") version "2.4.20"
+    kotlin("kapt") version "2.4.20"
     id("com.xuncorp.spw.workshop") version "0.1.0-dev22"
 }
 
