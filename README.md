@@ -22,12 +22,14 @@ SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库�
 
 ```toml
 [versions]
-# 0.1.0-dev21 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev21"
+# 0.1.0-dev22 替换为最新的（或需要的）版本
+spw-workshop-api = "0.1.0-dev22"
 
 [libraries]
 spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
 ```
+
+API `0.1.0-dev22` 起使用 Kotlin 2.4.20 与 Java 25 编译，插件项目需要使用 Kotlin 2.4.20 或更高版本，宿主与插件运行在 JDK 25 或更高版本
 
 在 `settings.gradle.kts` 中配置 Gradle 插件和库依赖仓库：
 
@@ -61,9 +63,9 @@ dependencyResolutionManagement {
 ```gradle
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '2.3.0'
-    id 'org.jetbrains.kotlin.kapt' version '2.3.0'
-    id 'com.xuncorp.spw.workshop' version '0.1.0-dev21'
+    id 'org.jetbrains.kotlin.jvm' version '2.4.20'
+    id 'org.jetbrains.kotlin.kapt' version '2.4.20'
+    id 'com.xuncorp.spw.workshop' version '0.1.0-dev22'
 }
 
 dependencies {
@@ -89,9 +91,9 @@ spmod { config ->
 ```kotlin
 plugins {
     id("java-library")
-    kotlin("jvm") version "2.3.0"
-    kotlin("kapt") version "2.3.0"
-    id("com.xuncorp.spw.workshop") version "0.1.0-dev21"
+    kotlin("jvm") version "2.4.20"
+    kotlin("kapt") version "2.4.20"
+    id("com.xuncorp.spw.workshop") version "0.1.0-dev22"
 }
 
 java {
@@ -143,6 +145,12 @@ class ClassicalPlugin : SpwPlugin() {
 | `PluginPermissions` | `Plugin-Permissions` | 可选，权限枚举列表，默认空列表；快捷键需声明 `KEY_BINDINGS`，曲库查询需声明 `LIBRARY_READ`，详见 [插件权限](docs/permissions.md) |
 
 必填字段未设置或为空白时，构建会提示对应的 `spmod` 字段。未设置的可选字符串不会写入 Manifest。
+
+## 直接 Hook API
+
+API `0.1.0-dev22` 提供 `WorkshopApi.hookRegistrar` / Java `WorkshopApi.hookRegistrar()`，在插件 `start()` 中直接注册 `hookMethod`、`replaceComposable`、`afterComposable` 或 `appendContent`；宿主管理字节码、插件归属与生命周期，沿用 `CLASS_TRANSFORM` 声明与用户授权
+
+Kotlin DSL、Java 回调、UI 定位、生命周期与限制见 [直接 Hook API](docs/hooks.md)
 
 ## 混淆配置
 

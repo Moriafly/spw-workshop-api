@@ -21,6 +21,7 @@ package com.xuncorp.spw.workshop.api
 
 import com.xuncorp.spw.workshop.api.PlaybackExtensionPoint.MediaItem
 import com.xuncorp.spw.workshop.api.config.ConfigManager
+import com.xuncorp.spw.workshop.api.hook.HookRegistrar
 import java.util.concurrent.CompletionStage
 
 /**
@@ -30,6 +31,10 @@ interface WorkshopApi {
     val playback: Playback
 
     val ui: Ui
+
+    @UnstableSpwWorkshopApi
+    @SinceApi("1.19.0", "0.1.0-dev22")
+    val hookRegistrar: HookRegistrar
 
     val manager: Manager
 
@@ -232,6 +237,13 @@ interface WorkshopApi {
             @JvmStatic
             @JvmName("ui")
             get() = instance.ui
+
+        @UnstableSpwWorkshopApi
+        @SinceApi("1.19.0", "0.1.0-dev22")
+        val hookRegistrar: HookRegistrar
+            @JvmStatic
+            @JvmName("hookRegistrar")
+            get() = instance.hookRegistrar
 
         val playback: Playback
             @JvmStatic

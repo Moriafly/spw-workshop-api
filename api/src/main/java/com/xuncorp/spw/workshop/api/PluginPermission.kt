@@ -9,7 +9,9 @@ package com.xuncorp.spw.workshop.api
  * @property id Plugin-Permissions 清单属性使用的稳定标识
  */
 @SinceApi("1.19.0", "0.1.0-dev21")
-enum class PluginPermission(val id: String) {
+enum class PluginPermission(
+    val id: String
+) {
     /**
      * 注册应用内快捷键，并可通过 hasGlobal 允许用户配置全局快捷键
      */
@@ -25,5 +27,13 @@ enum class PluginPermission(val id: String) {
      *
      * 预留给后续曲库写入接口，当前 API 尚未提供写入能力
      */
-    LIBRARY_WRITE("library-write")
+    LIBRARY_WRITE("library-write"),
+
+    /**
+     * 注册宿主方法与 UI Hook，改变应用行为
+     *
+     * 沿用 class-transform 清单标识，宿主内部负责安装与撤销 Hook
+     */
+    @SinceApi("1.19.0", "0.1.0-dev22")
+    CLASS_TRANSFORM("class-transform")
 }

@@ -35,8 +35,15 @@ spmod { config ->
 | `PluginPermission.KEY_BINDINGS` | `key-bindings` | `PluginPermission.KEY_BINDINGS` | 注册应用内快捷键，并可通过 `hasGlobal` 允许用户自行配置全局快捷键 |
 | `PluginPermission.LIBRARY_READ` | `library-read` | `PluginPermission.LIBRARY_READ` | 查询曲库歌曲元数据、文件路径、收藏状态和内嵌封面，包括当前歌曲的元数据查询 |
 | `PluginPermission.LIBRARY_WRITE` | `library-write` | `PluginPermission.LIBRARY_WRITE` | 写入曲库数据的独立权限；为后续接口预留，当前 API 尚无写入入口 |
+| `PluginPermission.CLASS_TRANSFORM` | `class-transform` | `PluginPermission.CLASS_TRANSFORM` | 注册宿主方法与 UI Hook 以改变应用行为；最高危权限，仅应授予完全信任的插件 |
 
 读写权限互不包含。插件只应申请实际使用的权限；当前曲库查询只需声明 `LIBRARY_READ`，无需申请 `LIBRARY_WRITE`
+
+## 方法与 UI Hook
+
+声明 `CLASS_TRANSFORM` 并获授权后，插件可通过 `WorkshopApi.hookRegistrar` 注册方法与 UI Hook，停用、卸载或撤销权限后停止新回调并恢复原行为。这是最高危权限，仅应授予完全信任的插件；权限清单标识沿用 `class-transform`
+
+Kotlin DSL、Java 回调与约束见 [直接 Hook API](hooks.md)，插件无需提供字节码转换器
 
 ## 查询与失败处理
 
@@ -91,7 +98,9 @@ public void start() {
 Kotlin（运行时代码导入 `com.xuncorp.spw.workshop.api.PluginPermission`）：
 
 ```kotlin
-if (WorkshopApi.manager.isPermissionGranted(PluginPermission.LIBRARY_READ)) {
+if (WorkshopApi.manager
+        .isPermissionGranted(PluginPermission.LIBRARY_READ)
+) {
     WorkshopApi.library.getTracks(afterId = null, limit = 20)
         .whenComplete { tracks, failure ->
             val cause = (failure as? java.util.concurrent.CompletionException)?.cause ?: failure
@@ -107,18 +116,22 @@ if (WorkshopApi.manager.isPermissionGranted(PluginPermission.LIBRARY_READ)) {
 Java：
 
 ```java
-if (WorkshopApi.manager().isPermissionGranted(PluginPermission.LIBRARY_READ)) {
-    WorkshopApi.library().getTracks(null, 20).whenComplete((tracks, failure) -> {
-        Throwable cause = failure instanceof java.util.concurrent.CompletionException
-                ? failure.getCause() : failure;
-        if (cause == null) {
-            tracks.forEach(track -> System.out.println(track.getTitle()));
-        } else if (cause instanceof PluginPermissionDeniedException) {
-            System.out.println("曲库读取权限不可用");
-        } else {
-            cause.printStackTrace();
-        }
-    });
+if (WorkshopApi.manager()
+        .isPermissionGranted(PluginPermission.LIBRARY_READ)
+) {
+    WorkshopApi.library()
+        .getTracks(null, 20)
+        .whenComplete((tracks, failure) -> {
+            Throwable cause = failure instanceof java.util.concurrent.CompletionException
+                   ? failure.getCause() : failure;
+            if (cause == null) {
+               tracks.forEach(track -> System.out.println(track.getTitle()));
+            } else if (cause instanceof PluginPermissionDeniedException) {
+                System.out.println("曲库读取权限不可用");
+            } else {
+                cause.printStackTrace();
+            }
+        });
 }
 ```
 

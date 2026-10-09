@@ -19,7 +19,12 @@ public enum PluginPermission {
     /**
      * 允许插件写入曲库数据，不包含读取权限
      */
-    LIBRARY_WRITE("library-write");
+    LIBRARY_WRITE("library-write"),
+
+    /**
+     * 允许插件注册宿主方法与 UI Hook，改变应用行为，仅应授予完全信任的插件
+     */
+    CLASS_TRANSFORM("class-transform");
 
     private final String id;
 
