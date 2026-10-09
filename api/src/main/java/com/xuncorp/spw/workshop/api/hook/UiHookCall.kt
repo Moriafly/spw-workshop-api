@@ -27,6 +27,8 @@ import com.xuncorp.spw.workshop.api.UnstableSpwWorkshopApi
  *
  * arguments 是不可修改的浅拷贝，不包含实例接收者、Composer、changed 和 default mask
  * 基本类型自动装箱，具名访问依赖目标方法的源码参数信息
+ * argument 以 T 读取参数，缺失、为 null 或类型不匹配时抛出带参数标识的异常，T 为可空类型时缺失或为 null 返回 null
+ * getArgument 带类型参数时做同样的类型校验，但缺失或为 null 一律返回 null，不抛出
  */
 @UnstableSpwWorkshopApi
 @SinceApi("1.19.0", "0.1.0-dev22")
@@ -38,9 +40,27 @@ abstract class UiHookCall {
 
     abstract fun getArgument(name: String): Any?
 
+    fun <T> getArgument(index: Int, type: Class<T>): T? =
+        checkType("#$index", getArgument(index), type)
+
+    fun <T> getArgument(name: String, type: Class<T>): T? =
+        checkType("'$name'", getArgument(name), type)
+
+    inline fun <reified T> argument(name: String): T {
+        val value = getArgument(name, T::class.java)
+        require(value != null || null is T) { "UI argument '$name' is missing or null" }
+        return value as T
+    }
+
+    inline fun <reified T> argument(index: Int): T {
+        val value = getArgument(index, T::class.java)
+        require(value != null || null is T) { "UI argument #$index is missing or null" }
+        return value as T
+    }
+
     @Suppress("RemoveRedundantQualifierName")
-    fun <T> getArgument(name: String, type: Class<T>): T? {
-        val value = getArgument(name) ?: return null
+    private fun <T> checkType(label: String, value: Any?, type: Class<T>): T? {
+        value ?: return null
         val boxed = when (type) {
             java.lang.Boolean.TYPE -> Boolean::class.javaObjectType
             java.lang.Byte.TYPE -> Byte::class.javaObjectType
@@ -52,12 +72,8 @@ abstract class UiHookCall {
             java.lang.Double.TYPE -> Double::class.javaObjectType
             else -> type
         }
-        require(boxed.isInstance(value)) { "UI argument '$name' is not ${type.name}" }
+        require(boxed.isInstance(value)) { "UI argument $label is not ${type.name}" }
         @Suppress("UNCHECKED_CAST")
         return value as T
     }
-
-    inline fun <reified T> argument(name: String): T = getArgument(name) as T
-
-    inline fun <reified T> argument(index: Int): T = getArgument(index) as T
 }

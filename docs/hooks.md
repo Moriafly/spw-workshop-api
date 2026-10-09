@@ -209,7 +209,7 @@ String title = call.getArgument("title", String.class);
 Object firstArgument = call.getArgument(0);
 ```
 
-`arguments` / `getArguments()` 是不可修改的浅拷贝，基本类型自动装箱；`thisObject` / `getThisObject()` 是当前实例，静态调用为 null。按名称读取要求目标提供参数名，缺少名称时使用索引
+`arguments` / `getArguments()` 是不可修改的浅拷贝，基本类型自动装箱；`thisObject` / `getThisObject()` 是当前实例，静态调用为 null。按名称读取要求目标提供参数名，缺少名称时使用索引。Kotlin 的 `argument<T>()` 在参数缺失、为 null 或类型不匹配时抛出带参数标识的异常，T 声明为可空类型时缺失或为 null 返回 null；Java 的 `getArgument(index, type)` / `getArgument(name, type)` 做同样的类型校验，但缺失或为 null 一律返回 null，需要自行判空
 
 参数仅在当前组件或构建器生命周期内有效。状态更新遵循 Compose 的用法：Flow 使用 `collectAsState()`，异步工作使用 `LaunchedEffect`，需要释放资源时使用 `DisposableEffect`。UI 回调抛出的异常会正常向上传播
 
