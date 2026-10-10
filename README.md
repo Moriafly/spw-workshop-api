@@ -1,157 +1,34 @@
 # SPW 创意工坊（Mod）API
 
-[![](https://jitpack.io/v/Moriafly/spw-workshop-api.svg)](https://jitpack.io/#Moriafly/spw-workshop-api)
+[![JitPack](https://jitpack.io/v/Moriafly/spw-workshop-api.svg)](https://jitpack.io/#Moriafly/spw-workshop-api)
 
-## 介绍
+SPW Workshop API 为 Salt Player 插件提供公开接口与扩展点，基于 PF4J，目前仍处于试验阶段。本仓库包含 API、Gradle 打包插件和可运行的示例工程。
 
-SPW 创意工坊 (Mod) API 是一个为实现 SPW 插件/模块而设计的库，目前尚处于试验阶段。它基于 PF4J (Plugin Framework for Java) 构建，旨在简化 SPW 在 JVM 平台上的插件化开发。
+## 开发文档
 
-通过结合本库与 Java 反射等高级特性，开发者可以对 SPW 实现更深层次的操作与控制。
+插件开发指南与使用示例统一维护在 [Salt Player 官网](https://saltplayer.com/workshop/)。首次开发请从 [开发入门](https://saltplayer.com/workshop/getting-started) 开始，按步骤配置开发环境、Gradle 仓库和插件解析规则，再编写、打包和安装插件。
 
-该库的核心逻辑代码位于 api 文件夹下的 com.xuncorp.spw.workshop.api 包中。其中，以 ExtensionPoint 结尾的类是插件的拓展点接口，而 WorkshopApi 类则提供了供插件访问的 SPW 公开方法。
+| 文档 | 内容 |
+| --- | --- |
+| [开发入门](https://saltplayer.com/workshop/getting-started) | 开发环境、Gradle 接入、JitPack 插件解析、主类、扩展点与元数据 |
+| [插件配置](https://saltplayer.com/workshop/configs) | 配置界面、用户设置的读写与变更监听 |
+| [插件权限](https://saltplayer.com/workshop/permissions) | 权限声明、查询、失败处理与授权生命周期 |
+| [直接 Hook API](https://saltplayer.com/workshop/hook) | 方法 Hook、UI 替换与追加、参数读取及生命周期 |
+| [安装与管理 Mod](https://saltplayer.com/workshop/usage) | 本地导入、启用、配置与更新 |
+| [发布 Mod](https://saltplayer.com/workshop/publishing) | GitHub 分享与 Steam 创意工坊发布 |
 
-请为你的 GitHub 插件仓库添加 [salt-player-plugins](https://github.com/topics/salt-player-plugins) topic，方便用户查找插件。
+## 仓库内容
 
-## 示例插件
+| 目录 | 内容 |
+| --- | --- |
+| [api](api) | `com.xuncorp.spw.workshop.api` 包中的公开契约与扩展点 |
+| [gradle-plugin](gradle-plugin) | `com.xuncorp.spw.workshop` Gradle 插件，用于生成 `.spmod` 分发包 |
+| [example](example) | Kotlin 插件示例与该工程的构建说明 |
 
-示例插件项目位于 [example](example) 目录下。建议参考该项目以快速上手。
+构建本仓库的示例插件，请阅读 [example/README.md](example/README.md)。
 
-## 使用方法
+请为自己的 GitHub 插件仓库添加 [salt-player-plugins](https://github.com/topics/salt-player-plugins) topic，方便用户查找插件。
 
-新建 Kotlin/Java 库项目，在 `gradle/libs.versions.toml` 中添加 API 依赖：
+## 许可证
 
-```toml
-[versions]
-# 0.1.0-dev22 替换为最新的（或需要的）版本
-spw-workshop-api = "0.1.0-dev22"
-
-[libraries]
-spw-workshop-api = { group = "com.github.Moriafly", name = "spw-workshop-api", version.ref = "spw-workshop-api" }
-```
-
-API `0.1.0-dev22` 起使用 Kotlin 2.4.20 与 Java 25 编译，插件项目需要使用 Kotlin 2.4.20 或更高版本，宿主与插件运行在 JDK 25 或更高版本
-
-在 `settings.gradle.kts` 中配置 Gradle 插件和库依赖仓库：
-
-```kotlin
-pluginManagement {
-    repositories {
-        maven("https://jitpack.io")
-        gradlePluginPortal()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "com.xuncorp.spw.workshop") {
-                useModule("com.github.Moriafly.spw-workshop-api:spw-workshop-gradle-plugin:${requested.version}")
-            }
-        }
-    }
-}
-
-dependencyResolutionManagement {
-    repositories {
-        google()
-        mavenCentral()
-        maven("https://jitpack.io")
-    }
-}
-```
-
-模块 gradle 类型写法：
-
-对于 Groovy:
-```gradle
-plugins {
-    id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '2.4.20'
-    id 'org.jetbrains.kotlin.kapt' version '2.4.20'
-    id 'com.xuncorp.spw.workshop' version '0.1.0-dev22'
-}
-
-dependencies {
-    compileOnly 'org.jetbrains.kotlin:kotlin-stdlib'
-    compileOnly libs.spw.workshop.api
-    kapt libs.spw.workshop.api
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
-}
-
-spmod { config ->
-    config.PluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
-    config.PluginId = "workshop-classical"
-    config.PluginVersion = "0.0.9"
-    config.PluginProvider = "Xuncorp"
-}
-```
-
-对于 Kotlin DSL:
-```kotlin
-plugins {
-    id("java-library")
-    kotlin("jvm") version "2.4.20"
-    kotlin("kapt") version "2.4.20"
-    id("com.xuncorp.spw.workshop") version "0.1.0-dev22"
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
-}
-
-dependencies {
-    compileOnly(kotlin("stdlib"))
-    compileOnly(libs.spw.workshop.api)
-    kapt(libs.spw.workshop.api)
-}
-
-spmod {
-    PluginClass = "com.xuncorp.workshop.demo.classical.ClassicalPlugin"
-    PluginId = "workshop-classical"
-    PluginVersion = "0.0.9"
-    PluginProvider = "Xuncorp"
-}
-```
-
-执行 `./gradlew plugin` 后，产物位于该模块的 `build/libs/plugin-<插件 ID>-<插件版本>.spmod`。
-
-插件：
-
-```kotlin
-class ClassicalPlugin : SpwPlugin() {
-    @Extension
-    class PlaybackExtension : PlaybackExtensionPoint {
-        // TODO 实现
-    }
-}
-```
-
-## 可用元数据
-
-`spmod` 字段使用大写开头的名称，均可用 `=` 赋值。Groovy 中通过配置对象访问字段，以避免 `PluginId` 与 Gradle 默认导入的同名类型冲突：
-
-| 字段 | Manifest 属性 | 说明 |
-| --- | --- | --- |
-| `PluginClass` | `Plugin-Class` | 必填，继承自 `SpwPlugin` 的插件主类完整类名 |
-| `PluginId` | `Plugin-Id` | 必填，唯一插件 ID，推荐使用 `com.xxx.xxx` 格式 |
-| `PluginVersion` | `Plugin-Version` | 必填，插件版本，建议遵循语义化版本规范 |
-| `PluginProvider` | `Plugin-Provider` | 可选，插件作者 |
-| `PluginName` | `Plugin-Name` | 可选，插件显示名称 |
-| `PluginDescription` | `Plugin-Description` | 可选，插件描述 |
-| `PluginOpenSourceUrl` | `Plugin-Open-Source-Url` | 可选，插件开源地址 |
-| `PluginHasConfig` | `Plugin-Has-Config` | 可选，布尔值，默认 `false`，详见 [配置文件](docs/configs.md) |
-| `PluginPermissions` | `Plugin-Permissions` | 可选，权限枚举列表，默认空列表；快捷键需声明 `KEY_BINDINGS`，曲库查询需声明 `LIBRARY_READ`，详见 [插件权限](docs/permissions.md) |
-
-必填字段未设置或为空白时，构建会提示对应的 `spmod` 字段。未设置的可选字符串不会写入 Manifest。
-
-## 直接 Hook API
-
-API `0.1.0-dev22` 提供 `WorkshopApi.hookRegistrar` / Java `WorkshopApi.hookRegistrar()`，在插件 `start()` 中直接注册 `hookMethod`、`replaceComposable`、`afterComposable` 或 `appendContent`；宿主管理字节码、插件归属与生命周期，沿用 `CLASS_TRANSFORM` 声明与用户授权
-
-Kotlin DSL、Java 回调、UI 定位、生命周期与限制见 [直接 Hook API](docs/hooks.md)
-
-## 混淆配置
-
-SPW 希望 Mod 开源并建议不要混淆其代码。
+本项目使用 Apache-2.0 许可证，详见 [LICENSE](LICENSE)。

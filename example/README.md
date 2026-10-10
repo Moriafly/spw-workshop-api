@@ -1,51 +1,44 @@
 # SPW 示例插件
 
-这是一个功能完整的 SPW (Salt Player for Windows) 插件示例，展示了如何使用 SPW Workshop API 进行插件扩展。
+本示例展示 SPW Workshop API 的插件主类、播放扩展、曲库查询与配置管理。插件接入与功能使用说明见 [Salt Player 官网开发文档](https://saltplayer.com/workshop/getting-started)。
 
-## 📁 项目结构
+## 项目结构
 
-```
-example-plugin/
+```text
+example/
 ├── src/main/kotlin/com/gg/example/
 │   ├── MainPlugin.kt                 # 插件主类
 │   ├── PlaybackExtensionExample.kt   # 播放扩展示例
-│   ├── ConfigExample.kt              # 配置管理示例
+│   ├── LibraryExample.kt             # 曲库查询示例
+│   └── ConfigExample.kt              # 配置管理示例
 ├── src/main/resources/
-│   ├── preference_config.json        # 默认配置文件
+│   └── preference_config.json        # 配置界面定义
 ├── build.gradle.kts                  # 构建配置
-└── README.md                         # 说明文档
+└── README.md
 ```
 
-### 构建插件
+## 构建与运行
 
-1. 克隆项目到本地
-2. 在仓库根目录执行构建命令：
+先按照官网 [开发环境与版本](https://saltplayer.com/workshop/getting-started#开发环境与版本) 配置开发环境，再在 **API 仓库根目录** 执行对应命令。
 
-```bash
+Windows 使用以下命令。
+
+```powershell
+.\gradlew.bat :example:plugin
+```
+
+Linux 使用以下命令。
+
+```sh
 ./gradlew :example:plugin
 ```
 
-3. 构建完成后，产物位于 `example/build/libs/plugin-com.gg.example-1.0.0.spmod`
+构建产物位于 `example/build/libs/plugin-com.gg.example-1.0.0.spmod`。按照官网 [本地导入](https://saltplayer.com/workshop/usage#本地导入) 步骤安装并启用该插件。
 
-`com.xuncorp.spw.workshop` Gradle 插件自动注册 `plugin` 任务，将主 JAR 内容放入 `classes/`，运行时 JAR 依赖放入 `lib/`
+## 相关资源
 
-插件信息统一填写在 `build.gradle.kts` 的 `spmod {}` 中，自动生成 Manifest 和分发包文件名，无需额外配置 `jar` 或 `plugin` 任务
-
-### 安装插件
-
-1. 确保 SPW 已正确安装
-2. 将构建好的插件文件复制到：
-   ```
-   %APPDATA%/Salt Player for Windows/workshop/plugins/
-   ```
-3. 重启 SPW
-4. 在 设置 → 创意工坊 → 模组管理 中启用插件
-
-## 📄 许可证
-
-本项目采用 Apache-2.0 许可证，详见 [LICENSE](./LICENSE) 文件。
-
-## 🔗 相关链接
-
-- [SPW Workshop API 文档](https://github.com/Moriafly/spw-workshop-api)
+- [官网开发文档](https://saltplayer.com/workshop/getting-started)
+- [API 源码](../api)
 - [问题反馈](https://github.com/Moriafly/spw-workshop-api/issues)
+
+本示例使用 Apache-2.0 许可证，详见仓库根目录的 [LICENSE](../LICENSE)。
