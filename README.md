@@ -4,6 +4,8 @@
 
 SPW Workshop API 为 Salt Player 插件提供公开接口与扩展点，基于 PF4J，目前仍处于试验阶段。本仓库包含 API、Gradle 打包插件和可运行的示例工程。
 
+**请为自己的 GitHub 插件仓库添加 [salt-player-plugins](https://github.com/topics/salt-player-plugins) topic，方便用户查找插件。**
+
 ## 开发文档
 
 插件开发指南与使用示例统一维护在 [Salt Player 官网](https://saltplayer.com/workshop/)。首次开发请从 [开发入门](https://saltplayer.com/workshop/getting-started) 开始，按步骤配置开发环境、Gradle 仓库和插件解析规则，再编写、打包和安装插件。
@@ -26,8 +28,6 @@ SPW Workshop API 为 Salt Player 插件提供公开接口与扩展点，基于 P
 | [example](example) | Kotlin 插件示例与该工程的构建说明 |
 
 构建本仓库的示例插件，请阅读 [example/README.md](example/README.md)。
-
-请为自己的 GitHub 插件仓库添加 [salt-player-plugins](https://github.com/topics/salt-player-plugins) topic，方便用户查找插件。
 
 ## 许可证
 
