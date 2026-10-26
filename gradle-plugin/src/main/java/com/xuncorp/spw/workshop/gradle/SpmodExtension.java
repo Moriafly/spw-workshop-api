@@ -50,6 +50,25 @@ public class SpmodExtension {
     public String PluginOpenSourceUrl;
 
     /**
+     * 当前插件运行时依赖的其他插件，对应 Manifest 的 {@code Plugin-Dependencies}
+     *
+     * <p>使用 {@link PluginDependency#required(String)} 或 {@link PluginDependency#optional(String)}
+     * 明确声明必需或可选依赖；版本条件作为 {@link PluginDependency#required(String, String)} 的第二个参数
+     * 默认空列表，空列表或 {@code null} 不写入该属性；同一插件 ID 只能声明一次
+     *
+     * <p>Kotlin DSL 示例，需要导入 {@code com.xuncorp.spw.workshop.gradle.PluginDependency}
+     * <pre>{@code
+     * spmod {
+     *     PluginDependencies = listOf(
+     *         PluginDependency.required("com.example.library", ">=1.0.0 & <2.0.0"),
+     *         PluginDependency.optional("com.example.integration")
+     *     )
+     * }
+     * }</pre>
+     */
+    public List<PluginDependency> PluginDependencies = List.of();
+
+    /**
      * 申请的宿主权限，对应 Plugin-Permissions，默认空列表
      * <p>
      * 声明后仍需用户在宿主中勾选授权

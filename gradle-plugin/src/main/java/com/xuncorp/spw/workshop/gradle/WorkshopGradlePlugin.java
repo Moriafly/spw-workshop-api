@@ -8,6 +8,7 @@ import org.gradle.api.provider.Provider;
 import org.gradle.api.provider.ProviderFactory;
 import org.gradle.api.tasks.bundling.Jar;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -36,6 +37,7 @@ public class WorkshopGradlePlugin implements Plugin<Project> {
         attributes.put("Plugin-Description", providers.provider(() -> spmod.PluginDescription));
         attributes.put("Plugin-Has-Config", providers.provider(() -> spmod.PluginHasConfig));
         attributes.put("Plugin-Open-Source-Url", providers.provider(() -> spmod.PluginOpenSourceUrl));
+        attributes.put("Plugin-Dependencies", providers.provider(() -> dependencies(spmod.PluginDependencies)));
         attributes.put("Plugin-Permissions", providers.provider(() -> permissions(spmod.PluginPermissions)));
         project.getTasks().named(JavaPlugin.JAR_TASK_NAME, Jar.class).configure(jar -> {
             jar.getManifest().attributes(attributes);
@@ -58,6 +60,35 @@ public class WorkshopGradlePlugin implements Plugin<Project> {
             throw new GradleException("spmod." + name + " 不能为空");
         }
         return value;
+    }
+
+    private static String dependencies(List<PluginDependency> values) {
+        if (values == null || values.isEmpty()) {
+            return null;
+        }
+
+        Set<String> pluginIds = new LinkedHashSet<>();
+        List<String> dependencies = new ArrayList<>();
+        // Groovy 的动态列表可能绕过泛型检查，在打包边界给出明确的配置错误
+        for (Object value : values) {
+            if (!(value instanceof PluginDependency dependency)) {
+                throw new GradleException(
+                        "spmod.PluginDependencies 仅接受 PluginDependency，请使用 required(pluginId) 或 optional(pluginId)"
+                );
+            }
+            if (!pluginIds.add(dependency.getPluginId())) {
+                throw new GradleException("spmod.PluginDependencies 重复声明插件 ID：" + dependency.getPluginId());
+            }
+            String declaration = dependency.getPluginId();
+            if (dependency.isOptional()) {
+                declaration += "?";
+            }
+            if (!"*".equals(dependency.getVersionRequirement())) {
+                declaration += "@" + dependency.getVersionRequirement();
+            }
+            dependencies.add(declaration);
+        }
+        return String.join(",", dependencies);
     }
 
     private static String permissions(List<PluginPermission> values) {
