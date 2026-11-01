@@ -32,7 +32,14 @@ interface PlaybackExtensionPoint : ExtensionPoint {
     fun onStateChanged(state: State) {}
 
     /**
-     * 正在播放状态改变的回调
+     * 正在播放状态更新的回调
+     *
+     * 需要持续跟踪播放状态时实现此回调；宿主可能重复通知相同的状态
+     * 不保证插件启用时收到初始状态，需要主动获取当前值时使用 [WorkshopApi.Playback.isPlaying]
+     * 查询与回调不是原子操作，初始化期间需协调两者，避免遗漏变化或旧查询结果覆盖更新后的状态
+     *
+     * @param isPlaying 本次通知的播放状态
+     * @see WorkshopApi.Playback.isPlaying
      */
     @SinceApi("1.3.16", "0.1.0-dev06")
     fun onIsPlayingChanged(isPlaying: Boolean) {}

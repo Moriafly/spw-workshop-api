@@ -137,6 +137,24 @@ interface WorkshopApi {
      */
     interface Playback {
         /**
+         * 查询播放器当前是否正在播放
+         *
+         * 初始化界面或需要主动刷新状态时调用；需要持续接收状态变化时，实现
+         * [PlaybackExtensionPoint.onIsPlayingChanged]
+         * 回调不保证在插件启用时重放初始状态，不能代替主动查询
+         *
+         * 返回值与回调参数的含义一致，是调用时的状态快照；false 不能说明用户是否主动暂停
+         * 查询不会触发播放或暂停，可从任意线程调用
+         * 查询与回调不是原子操作，状态可能在查询或扩展启用期间发生变化
+         * 同时使用时需要协调查询时机和回调，避免遗漏变化或旧查询结果覆盖更新后的状态
+         *
+         * @return 当前是否正在播放
+         * @see PlaybackExtensionPoint.onIsPlayingChanged
+         */
+        @SinceApi("1.20.0", "0.1.0-dev24")
+        fun isPlaying(): Boolean
+
+        /**
          * 获取当前歌曲的 MediaItem 快照
          *
          * 无当前歌曲时返回 null
