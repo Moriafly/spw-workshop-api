@@ -73,11 +73,11 @@ public class WorkshopGradlePlugin implements Plugin<Project> {
         for (Object value : values) {
             if (!(value instanceof PluginDependency dependency)) {
                 throw new GradleException(
-                        "spmod.PluginDependencies 仅接受 PluginDependency，请使用 required(pluginId) 或 optional(pluginId)"
+                        "spmod.PluginDependencies only accepts PluginDependency; use required(pluginId) or optional(pluginId)"
                 );
             }
             if (!pluginIds.add(dependency.getPluginId())) {
-                throw new GradleException("spmod.PluginDependencies 重复声明插件 ID：" + dependency.getPluginId());
+                throw new GradleException("spmod.PluginDependencies contains a duplicate plugin ID: " + dependency.getPluginId());
             }
             String declaration = dependency.getPluginId();
             if (dependency.isOptional()) {

@@ -25,7 +25,7 @@ public final class PluginDependency {
         if (pluginId == null
                 || !pluginId.matches("[A-Za-z0-9_][A-Za-z0-9_-]*(?:\\.[A-Za-z0-9_][A-Za-z0-9_-]*)*")) {
             throw new IllegalArgumentException(
-                    "pluginId 必须是有效的插件 ID，例如 com.example.library；不要附加版本或可选标记"
+                    "pluginId must be a valid plugin ID, such as com.example.library; do not append a version or optional marker"
             );
         }
         if (versionRequirement == null || versionRequirement.isBlank()
@@ -33,8 +33,8 @@ public final class PluginDependency {
                 || versionRequirement.indexOf('?') >= 0 || versionRequirement.indexOf('\n') >= 0
                 || versionRequirement.indexOf('\r') >= 0) {
             throw new IllegalArgumentException(
-                    "插件 " + pluginId + " 的 versionRequirement 无效：" + versionRequirement
-                            + "；必须是非空版本条件，且不能包含逗号、换行、@ 或 ?"
+                    "Invalid versionRequirement for plugin " + pluginId + ": " + versionRequirement
+                            + "; it must be non-blank and cannot contain commas, line breaks, @, or ?"
             );
         }
         String requirement = versionRequirement.trim();
@@ -44,7 +44,7 @@ public final class PluginDependency {
                 ExpressionParser.newInstance().parse(requirement);
             } catch (ParseException | IllegalArgumentException failure) {
                 throw new IllegalArgumentException(
-                        "插件 " + pluginId + " 的 versionRequirement 语法无效：" + requirement,
+                        "Invalid versionRequirement syntax for plugin " + pluginId + ": " + requirement,
                         failure
                 );
             }
